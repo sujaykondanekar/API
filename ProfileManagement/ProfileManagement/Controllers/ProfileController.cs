@@ -13,10 +13,11 @@ namespace ProfileManagement.Controllers
         {
             this.profileManager = profileManager;
         }
+
         // GET: api/Profile
         public async Task<IHttpActionResult> GetAsync()
         {
-            var result = await profileManager.GetAllProfilesAsync(ExtractUserNameFromHeader());
+            var result = await profileManager.GetAllProfilesAsync(GetUserFromRequest());
             if (result != null && result.Any())
             {
                 return Ok(result);
@@ -25,8 +26,8 @@ namespace ProfileManagement.Controllers
             return NotFound();
         }
 
-        // GET: api/Profile/5
-        public async Task<IHttpActionResult> GetAsync(int profileId)
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetAsyncById(int profileId)
         {
             var result = await profileManager.GetProfileAsync(profileId);
             if (result != null)
@@ -41,12 +42,13 @@ namespace ProfileManagement.Controllers
         [AcceptVerbs("POST", "PUT")]
         public async Task<IHttpActionResult> UpsertAsyn(Profile profile)
         {
-            await profileManager.UpsertProfileAsync(ExtractUserNameFromHeader(), profile);
+            await profileManager.UpsertProfileAsync(GetUserFromRequest(), profile);
             return Ok();
         }
-        
+
 
         // DELETE: api/Profile/5
+        [AcceptVerbs("DELETE")]
         public async Task<IHttpActionResult> DeleteAsync(int profileId)
         {
             await profileManager.DeleteProfileAsync(profileId);

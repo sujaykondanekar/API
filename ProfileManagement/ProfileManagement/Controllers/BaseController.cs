@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,14 +8,14 @@ namespace ProfileManagement.Controllers
 {
     public class BaseController : ApiController
     {
-        protected string ExtractUserNameFromHeader()
+        protected string GetUserFromRequest()
         {
             IEnumerable<string> headerValues = null;
             if(Request.Headers.TryGetValues("UserName", out headerValues))
             {
                 return headerValues.First();
             }
-            var message = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            var message = new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {
                 Content = new StringContent("User name missing in header")
             };
