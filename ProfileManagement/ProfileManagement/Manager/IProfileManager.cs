@@ -21,7 +21,7 @@ namespace ProfileManagement.Manager
         /// </summary>
         /// <param name="profileId"></param>
         /// <returns></returns>
-        Task<Profile> GetProfileAsync(int profileId);
+        Task<Profile> GetProfileAsync(string profileId);
 
         /// <summary>
         /// 
@@ -33,6 +33,6 @@ namespace ProfileManagement.Manager
         /// 
         /// </summary>
         /// <param name="profileId"></param>
-        Task DeleteProfileAsync(int profileId);
+        Task DeleteProfileAsync(string profileId);
     }
 }

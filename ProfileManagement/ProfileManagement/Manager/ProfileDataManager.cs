@@ -1,32 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using ProfileManagement.DataContract;
+using ProfileManagement.DataSource;
 
 namespace ProfileManagement.Manager
 {
     public class ProfileDataManager : IProfileDataManager
     {
-        public Task DeleteProfileAsync(int profileId)
+        private ProfileManagementDbContext dbContext;
+
+        public ProfileDataManager(ProfileManagementDbContext dbContext)
         {
-            throw new NotImplementedException();
+            this.dbContext = dbContext;
         }
 
-        public Task<IEnumerable<Profile>> GetAllProfilesAsync(string userId)
+        public async Task DeleteProfileAsync(string profileId)
         {
-            throw new NotImplementedException();
+            var profile = await dbContext.Profiles.Where(p => p.Id == profileId).FirstOrDefaultAsync();
+            if (profile != null)
+            {
+                dbContext.Profiles.Remove(profile);
+                await dbContext.SaveChangesAsync();
+            }
         }
 
-        public Task<Profile> GetProfileAsync(int profileId)
+        public async Task<IEnumerable<Profile>> GetAllProfilesAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await dbContext.Profiles.Where(p => p.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public Task UpsertProfileAsync(string userId, Profile profile)
+        public async Task<Profile> GetProfileAsync(string profileId)
         {
-            throw new NotImplementedException();
+            return await dbContext.Profiles.Where(p => p.Id == profileId).FirstOrDefaultAsync();
+        }
+
+        public async Task<string> UpsertProfileAsync(string userId, Profile profile)
+        {
+            if (profile.Id == null)
+            {
+                profile.UserId = userId;
+                dbContext.Profiles.Add(profile);
+                await dbContext.SaveChangesAsync();
+                return profile.Id;
+
+            }
+            else
+            {
+                return profile.Id;
+            }
         }
     }
 }

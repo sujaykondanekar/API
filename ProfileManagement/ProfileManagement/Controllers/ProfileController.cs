@@ -27,7 +27,7 @@ namespace ProfileManagement.Controllers
         }
 
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetAsyncById(int profileId)
+        public async Task<IHttpActionResult> GetAsyncById(string profileId)
         {
             var result = await profileManager.GetProfileAsync(profileId);
             if (result != null)
@@ -49,7 +49,7 @@ namespace ProfileManagement.Controllers
 
         // DELETE: api/Profile/5
         [AcceptVerbs("DELETE")]
-        public async Task<IHttpActionResult> DeleteAsync(int profileId)
+        public async Task<IHttpActionResult> DeleteAsync(string profileId)
         {
             await profileManager.DeleteProfileAsync(profileId);
             return Ok();

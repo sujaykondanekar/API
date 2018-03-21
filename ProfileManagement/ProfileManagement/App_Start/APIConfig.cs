@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using Authorization;
+using System.Web.Http;
 
 namespace ProfileManagement
 {
@@ -11,6 +12,8 @@ namespace ProfileManagement
 
             // register dependency servive
             APIContainerConfig.RegisterComponents();
+
+            config.MessageHandlers.Add(new TokenAuthorizationHandler());
         }
     }
 }

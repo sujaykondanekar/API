@@ -14,7 +14,7 @@ namespace ProfileManagement.Manager
         {
             this.dataManager = dataManager;
         }
-        public Task DeleteProfileAsync(int profileId)
+        public Task DeleteProfileAsync(string profileId)
         {
             return dataManager.DeleteProfileAsync(profileId);
         }
@@ -24,7 +24,7 @@ namespace ProfileManagement.Manager
             return dataManager.GetAllProfilesAsync(userId);
         }
 
-        public Task<Profile> GetProfileAsync(int profileId)
+        public Task<Profile> GetProfileAsync(string profileId)
         {
             return dataManager.GetProfileAsync(profileId);
         }
