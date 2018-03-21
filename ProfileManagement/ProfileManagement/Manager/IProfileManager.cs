@@ -21,18 +21,18 @@ namespace ProfileManagement.Manager
         /// </summary>
         /// <param name="profileId"></param>
         /// <returns></returns>
-        Task<Profile> GetProfileAsync(string profileId);
+        Task<Profile> GetProfileAsync(int profileId);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="profileId"></param>
-        Task UpsertProfileAsync(string userId, Profile profile);
+        Task<int> UpsertProfileAsync(string userId, Profile profile);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="profileId"></param>
-        Task DeleteProfileAsync(string profileId);
+        Task DeleteProfileAsync(int profileId);
     }
 }

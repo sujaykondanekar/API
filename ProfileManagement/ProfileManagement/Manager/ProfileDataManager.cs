@@ -18,7 +18,7 @@ namespace ProfileManagement.Manager
             this.dbContext = dbContext;
         }
 
-        public async Task DeleteProfileAsync(string profileId)
+        public async Task DeleteProfileAsync(int profileId)
         {
             var profile = await dbContext.Profiles.Where(p => p.Id == profileId).FirstOrDefaultAsync();
             if (profile != null)
@@ -33,24 +33,24 @@ namespace ProfileManagement.Manager
             return await dbContext.Profiles.Where(p => p.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public async Task<Profile> GetProfileAsync(string profileId)
+        public async Task<Profile> GetProfileAsync(int profileId)
         {
             return await dbContext.Profiles.Where(p => p.Id == profileId).FirstOrDefaultAsync();
         }
 
-        public async Task<string> UpsertProfileAsync(string userId, Profile profile)
+        public async Task<int> UpsertProfileAsync(string userId, Profile profile)
         {
             if (profile.Id == null)
             {
                 profile.UserId = userId;
                 dbContext.Profiles.Add(profile);
                 await dbContext.SaveChangesAsync();
-                return profile.Id;
+                return profile.Id.Value;
 
             }
             else
             {
-                return profile.Id;
+                return profile.Id.Value;
             }
         }
     }
