@@ -1,7 +1,9 @@
-﻿using Authorization;
+﻿using MD.ProfileManagement.Handlers;
+using MD.ProfileManagement.Helper;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
-namespace ProfileManagement
+namespace MD.ProfileManagement
 {
     public static class APIConfig
     {
@@ -12,8 +14,15 @@ namespace ProfileManagement
 
             // register dependency servive
             APIContainerConfig.RegisterComponents();
-
-            config.MessageHandlers.Add(new TokenAuthorizationHandler());
+            if (Settings.LogRequest)
+            {
+                config.MessageHandlers.Add(new RequestLoggingHandler());
+            }
+            if (Settings.AuthenticateRequest)
+            {
+                config.MessageHandlers.Add(new TokenAuthorizationHandler());
+            }
+            config.Services.Replace(typeof(IExceptionHandler), new APIExceptionHandler());
         }
     }
 }

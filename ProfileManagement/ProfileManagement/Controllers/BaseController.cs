@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace ProfileManagement.Controllers
+namespace MD.ProfileManagement.Controllers
 {
     public class BaseController : ApiController
     {

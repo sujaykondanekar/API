@@ -1,6 +1,6 @@
-namespace ProfileManagement.DataSource
+namespace MD.ProfileManagement.DataSource
 {
-    using ProfileManagement.DataContract;
+    using MD.ProfileManagement.DataContract;
     using System;
     using System.Data.Entity;
     using System.Linq;

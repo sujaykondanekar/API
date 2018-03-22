@@ -1,10 +1,10 @@
-﻿using ProfileManagement.DataContract;
-using ProfileManagement.Manager;
+﻿using MD.ProfileManagement.DataContract;
+using MD.ProfileManagement.Manager;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace ProfileManagement.Controllers
+namespace MD.ProfileManagement.Controllers
 {
     public class ProfileController : BaseController
     {

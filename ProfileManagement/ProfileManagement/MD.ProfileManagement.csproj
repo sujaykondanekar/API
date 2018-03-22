@@ -12,8 +12,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProfileManagement</RootNamespace>
-    <AssemblyName>ProfileManagement</AssemblyName>
+    <RootNamespace>MD.ProfileManagement</RootNamespace>
+    <AssemblyName>MD.ProfileManagement</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -52,6 +52,9 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -130,10 +133,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\APIExceptionHandler.cs" />
+    <Compile Include="Handlers\RequestLoggingHandler .cs" />
+    <Compile Include="Helper\Settings.cs" />
     <Compile Include="Manager\ProfileDataManager.cs" />
     <Compile Include="Manager\ProfileManager.cs" />
     <Compile Include="Manager\IProfileDataManager.cs" />
     <Compile Include="Manager\IProfileManager.cs" />
+    <Compile Include="Handlers\TokenAuthorizationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -147,13 +154,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helper\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Authorization\Authorization.csproj">
+    <ProjectReference Include="..\Authorization\MD.Authorization.csproj">
       <Project>{ea84c708-4ed6-48e8-86d9-3fd2f6d5a421}</Project>
-      <Name>Authorization</Name>
+      <Name>MD.Authorization</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileManagement", "ProfileManagement\ProfileManagement.csproj", "{1F7FDD25-DC28-4816-A206-81402DD2907B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.ProfileManagement", "ProfileManagement\MD.ProfileManagement.csproj", "{1F7FDD25-DC28-4816-A206-81402DD2907B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileManagement.Tests", "ProfileManagement.Tests\ProfileManagement.Tests.csproj", "{34F60485-ADDA-4A6A-9D3E-D1799F4F1DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization", "Authorization\Authorization.csproj", "{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.Authorization", "Authorization\MD.Authorization.csproj", "{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

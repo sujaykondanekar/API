@@ -7,8 +7,8 @@
     <ProjectGuid>{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Authorization</RootNamespace>
-    <AssemblyName>Authorization</AssemblyName>
+    <RootNamespace>MD.Authorization</RootNamespace>
+    <AssemblyName>MD.Authorization</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -43,8 +46,10 @@
   <ItemGroup>
     <Compile Include="APITokenAuthorizationService.cs" />
     <Compile Include="ITokenAuthorizationService.cs" />
-    <Compile Include="TokenAuthorizationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

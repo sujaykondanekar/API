@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using ProfileManagement.DataContract;
+using MD.ProfileManagement.DataContract;
 
-namespace ProfileManagement.Manager
+namespace MD.ProfileManagement.Manager
 {
     public class ProfileManager : IProfileManager
     {

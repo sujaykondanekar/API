@@ -1,4 +1,4 @@
-﻿namespace ProfileManagement.DataContract
+﻿namespace MD.ProfileManagement.DataContract
 {
     public class Profile
     {

@@ -1,9 +1,9 @@
-using ProfileManagement.Manager;
+using MD.ProfileManagement.Manager;
 using System.Web.Http;
 using Unity;
 using Unity.WebApi;
 
-namespace ProfileManagement
+namespace MD.ProfileManagement
 {
     public static class APIContainerConfig
     {

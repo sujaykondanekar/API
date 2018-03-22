@@ -64,9 +64,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProfileManagement\ProfileManagement.csproj">
+    <ProjectReference Include="..\ProfileManagement\MD.ProfileManagement.csproj">
       <Project>{1F7FDD25-DC28-4816-A206-81402DD2907B}</Project>
-      <Name>ProfileManagement</Name>
+      <Name>MD.ProfileManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

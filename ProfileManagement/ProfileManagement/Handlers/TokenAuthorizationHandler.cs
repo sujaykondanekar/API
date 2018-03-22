@@ -1,13 +1,17 @@
-﻿using System.Linq;
+﻿using log4net;
+using MD.Authorization;
+using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Authorization
+namespace MD.ProfileManagement.Handlers
 {
     public class TokenAuthorizationHandler : DelegatingHandler
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             string token;
@@ -40,9 +44,21 @@ namespace Authorization
                     return await base.SendAsync(request, cancellationToken);
                 }
             }
-            catch (System.InvalidOperationException)
+            catch (Exception ex)
             {
-                return null;
+                try
+                {
+                    log.Error("Error occured while authenticating the request.", ex);
+                }
+                catch
+                {
+                    //do nothing  
+                }
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent("Unable to authenticate currently. Please try after some time.")
+                };
+
             }
         }
     }

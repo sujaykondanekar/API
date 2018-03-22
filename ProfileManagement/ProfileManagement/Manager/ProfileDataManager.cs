@@ -1,13 +1,12 @@
-﻿using System;
+﻿using MD.ProfileManagement.DataContract;
+using MD.ProfileManagement.DataSource;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using ProfileManagement.DataContract;
-using ProfileManagement.DataSource;
 
-namespace ProfileManagement.Manager
+namespace MD.ProfileManagement.Manager
 {
     public class ProfileDataManager : IProfileDataManager
     {
@@ -44,14 +43,38 @@ namespace ProfileManagement.Manager
             {
                 profile.UserId = userId;
                 dbContext.Profiles.Add(profile);
-                await dbContext.SaveChangesAsync();
-                return profile.Id.Value;
-
             }
             else
             {
-                return profile.Id.Value;
+                Profile profileInDB = await dbContext.Profiles.Where(p => p.Id == profile.Id).FirstOrDefaultAsync();
+                if(profileInDB == null)
+                {
+                    dbContext.Profiles.Add(profile);
+                }
+                else
+                {
+                    UpdateProfileValues(profileInDB, profile);
+                }
+                
             }
+
+            await dbContext.SaveChangesAsync();
+            return profile.Id.Value;
+        }
+
+        private void UpdateProfileValues(Profile profileInDB, Profile profile)
+        {
+            profileInDB.FirstName = profile.FirstName;
+            profileInDB.LastName = profile.LastName;
+            profileInDB.Age = profile.Age;
+            profileInDB.Gender = profile.Gender;
+            profileInDB.Height = profile.Height;
+            profileInDB.Report = UpdateJsonReport(profileInDB.Report, profile.Report);
+        }
+
+        private string UpdateJsonReport(string reportInDB, string newReport)
+        {
+            return newReport;
         }
     }
 }

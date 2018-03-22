@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Http;
 
-namespace ProfileManagement
+namespace MD.ProfileManagement
 {
     public class APIRouteConfig
     {

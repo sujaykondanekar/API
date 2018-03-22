@@ -1,8 +1,8 @@
-﻿using ProfileManagement.DataContract;
+﻿using MD.ProfileManagement.DataContract;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ProfileManagement.Manager
+namespace MD.ProfileManagement.Manager
 {
     /// <summary>
     /// 
