@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.API.Common", "MD.API.Common\MD.API.Common.csproj", "{A6871A38-F692-4F51-8FA6-2A7B7FB69A5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.Authorization", "MD.Authorization\MD.Authorization.csproj", "{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6871A38-F692-4F51-8FA6-2A7B7FB69A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6871A38-F692-4F51-8FA6-2A7B7FB69A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6871A38-F692-4F51-8FA6-2A7B7FB69A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6871A38-F692-4F51-8FA6-2A7B7FB69A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA84C708-4ED6-48E8-86D9-3FD2F6D5A421}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F61A6BCF-86B6-47D8-BC34-510063ED27AC}
+	EndGlobalSection
+EndGlobal

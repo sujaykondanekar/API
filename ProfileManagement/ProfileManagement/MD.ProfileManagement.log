@@ -1,0 +1,79 @@
+2018-03-22 18:56:25,980 [8] INFO  MD.ProfileManagement.MessageHandlers.RequestLoggingHandler [(null)]      - <log4net.Error>Exception during StringFormat: Input string was not in a correct format. <format>{Request: {0}
+{1}</format><args>{GET http://localhost:50097/Profile, }</args></log4net.Error>
+2018-03-22 19:01:05,261 [7] INFO  MD.ProfileManagement.MessageHandlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:26:04,858 [7] INFO  MD.ProfileManagement.Handlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:26:33,571 [10] INFO  MD.ProfileManagement.Handlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:27:35,683 [7] INFO  MD.ProfileManagement.Handlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:34:58,766 [7] INFO  MD.ProfileManagement.Handlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:35:02,406 [7] ERROR MD.ProfileManagement.Handlers.TokenAuthorizationHandler [(null)]      - Error occured while authenticating the request.
+System.InvalidOperationException: The given header was not found.
+   at System.Net.Http.Headers.HttpHeaders.GetValues(String name)
+   at MD.ProfileManagement.Handlers.TokenAuthorizationHandler.<SendAsync>d__1.MoveNext() in E:\Atul\Projects\Git\API\ProfileManagement\ProfileManagement\Handlers\TokenAuthorizationHandler.cs:line 20
+2018-03-22 19:53:18,084 [7] INFO  MD.ProfileManagement.Handlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:53:18,129 [7] ERROR MD.ProfileManagement.Handlers.APIExceptionHandler [(null)]      - Exception.
+System.InvalidOperationException: Multiple types were found that match the controller named 'Profile'. This can happen if the route that services this request ('profile') found multiple controllers defined with the same name but differing namespaces, which is not supported.
+
+The request for 'Profile' has found the following matching controllers:
+ProfileManagement.Controllers.ProfileController
+MD.ProfileManagement.Controllers.ProfileController
+   at System.Web.Http.Dispatcher.DefaultHttpControllerSelector.SelectController(HttpRequestMessage request)
+   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at MD.ProfileManagement.Handlers.RequestLoggingHandler.<SendAsync>d__1.MoveNext() in E:\Atul\Projects\Git\API\ProfileManagement\ProfileManagement\Handlers\RequestLoggingHandler .cs:line 15
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.HttpServer.<SendAsync>d__0.MoveNext()
+2018-03-22 19:54:31,719 [7] INFO  MD.ProfileManagement.Handlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:54:31,736 [7] ERROR MD.ProfileManagement.Handlers.APIExceptionHandler [(null)]      - Exception.
+System.InvalidOperationException: Multiple types were found that match the controller named 'Profile'. This can happen if the route that services this request ('profile') found multiple controllers defined with the same name but differing namespaces, which is not supported.
+
+The request for 'Profile' has found the following matching controllers:
+ProfileManagement.Controllers.ProfileController
+MD.ProfileManagement.Controllers.ProfileController
+   at System.Web.Http.Dispatcher.DefaultHttpControllerSelector.SelectController(HttpRequestMessage request)
+   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at MD.ProfileManagement.Handlers.RequestLoggingHandler.<SendAsync>d__1.MoveNext() in E:\Atul\Projects\Git\API\ProfileManagement\ProfileManagement\Handlers\RequestLoggingHandler .cs:line 15
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.HttpServer.<SendAsync>d__0.MoveNext()
+2018-03-22 19:57:05,484 [7] INFO  MD.ProfileManagement.Handlers.RequestLoggingHandler [(null)]      - Request: GET http://localhost:50097/Profile
+ 
+2018-03-22 19:57:05,531 [7] ERROR MD.ProfileManagement.Handlers.APIExceptionHandler [(null)]      - Exception.
+System.InvalidOperationException: Multiple types were found that match the controller named 'Profile'. This can happen if the route that services this request ('profile') found multiple controllers defined with the same name but differing namespaces, which is not supported.
+
+The request for 'Profile' has found the following matching controllers:
+ProfileManagement.Controllers.ProfileController
+MD.ProfileManagement.Controllers.ProfileController
+   at System.Web.Http.Dispatcher.DefaultHttpControllerSelector.SelectController(HttpRequestMessage request)
+   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at MD.ProfileManagement.Handlers.RequestLoggingHandler.<SendAsync>d__1.MoveNext() in E:\Atul\Projects\Git\API\ProfileManagement\ProfileManagement\Handlers\RequestLoggingHandler .cs:line 15
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.HttpServer.<SendAsync>d__0.MoveNext()
