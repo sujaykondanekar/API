@@ -1,7 +1,7 @@
-﻿using MD.ProfileManagement.Handlers;
-using MD.ProfileManagement.Helper;
+﻿using MD.ProfileManagement.Helper;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
+using MD.Common.Handlers;
 
 namespace MD.ProfileManagement
 {

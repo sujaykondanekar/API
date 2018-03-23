@@ -1,14 +1,10 @@
 ﻿using log4net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Results;
 
-namespace MD.ProfileManagement.Handlers
+namespace MD.Common.Handlers
 {
     public class APIExceptionHandler: ExceptionHandler
     {
