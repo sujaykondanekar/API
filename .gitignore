@@ -1,5 +1,5 @@
-.vs
-packages
-bin
-obj
-Debug
+bin/
+debug/
+packages/
+obj/
+.vs/
