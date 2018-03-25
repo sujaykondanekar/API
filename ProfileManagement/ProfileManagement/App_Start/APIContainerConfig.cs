@@ -11,6 +11,8 @@ namespace MD.ProfileManagement
         {
             var container = new UnityContainer();
             container.RegisterType<IProfileDataManager, ProfileDataManager>();
+            container.RegisterType<IProfileManager, ProfileManager>();
+            container.RegisterType<ITestDataManager, TestDataManager>();
             container.RegisterType<ITestManager, TestManager>();
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
