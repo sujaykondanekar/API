@@ -26,18 +26,18 @@ namespace MD.ProfileManagement.Controllers
             return NotFound();
         }
 
-        [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetAsyncById(int profileId)
-        {
-            var result = await profileManager.GetProfileAsync(profileId);
-            if (result != null)
-            {
-                return Ok(result);
-            }
+        //[AcceptVerbs("GET")]
+        //public async Task<IHttpActionResult> GetAsyncById(int profileId)
+        //{
+        //    var result = await profileManager.GetProfileAsync(profileId);
+        //    if (result != null)
+        //    {
+        //        return Ok(result);
+        //    }
 
-            return NotFound();
+        //    return NotFound();
 
-        }
+        //}
 
         [AcceptVerbs("POST", "PUT")]
         public async Task<IHttpActionResult> UpsertAsyn(Profile profile)
