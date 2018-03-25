@@ -1,12 +1,11 @@
 ﻿using MD.ProfileManagement.DataContract;
-using MD.ProfileManagement.DataSource;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MD.ProfileManagement.Manager
+namespace MD.ProfileManagement.DataSource.DataManager
 {
     public class TestDataManager : ITestDataManager
     {

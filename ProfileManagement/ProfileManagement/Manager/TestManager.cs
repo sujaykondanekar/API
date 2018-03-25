@@ -1,9 +1,7 @@
-﻿using System;
+﻿using MD.ProfileManagement.DataContract;
+using MD.ProfileManagement.DataSource.DataManager;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using MD.ProfileManagement.DataContract;
 
 namespace MD.ProfileManagement.Manager
 {

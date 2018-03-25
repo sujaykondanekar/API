@@ -137,20 +137,13 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
-    <Compile Include="DataContract\Test.cs" />
-    <Compile Include="DataContract\Profile.cs" />
-    <Compile Include="DataSource\ProfileManagementDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\Settings.cs" />
     <Compile Include="Manager\ITestManager.cs" />
-    <Compile Include="Manager\ITestDataManager.cs" />
     <Compile Include="Manager\TestManager.cs" />
-    <Compile Include="Manager\TestDataManager.cs" />
-    <Compile Include="Manager\ProfileDataManager.cs" />
     <Compile Include="Manager\ProfileManager.cs" />
-    <Compile Include="Manager\IProfileDataManager.cs" />
     <Compile Include="Manager\IProfileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -174,6 +167,14 @@
     <ProjectReference Include="..\..\MD.Core\MD.Authorization\MD.Authorization.csproj">
       <Project>{ea84c708-4ed6-48e8-86d9-3fd2f6d5a421}</Project>
       <Name>MD.Authorization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MD.ProfileManagement.DataContract\MD.ProfileManagement.DataContract.csproj">
+      <Project>{9e16072a-3a78-4720-b692-da14084d3ab3}</Project>
+      <Name>MD.ProfileManagement.DataContract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MD.ProfileManagement.DataSource\MD.ProfileManagement.DataSource.csproj">
+      <Project>{37863fc9-9331-4c75-8f70-e31a277e7ffd}</Project>
+      <Name>MD.ProfileManagement.DataSource</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

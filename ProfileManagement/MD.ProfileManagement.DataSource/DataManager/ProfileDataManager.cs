@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MD.ProfileManagement.Manager
+namespace MD.ProfileManagement.DataSource.DataManager
 {
     public class ProfileDataManager : IProfileDataManager
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MD.ProfileManagement.Manager
+namespace MD.ProfileManagement.DataSource.DataManager
 {
     public interface ITestDataManager
     {
