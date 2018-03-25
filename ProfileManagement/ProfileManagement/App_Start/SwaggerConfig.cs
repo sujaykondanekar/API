@@ -1,11 +1,11 @@
 using System.Web.Http;
 using WebActivatorEx;
-using MD.UserAccount;
+using MD.ProfileManagement;
 using Swashbuckle.Application;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace MD.UserAccount
+namespace MD.ProfileManagement
 {
     public class SwaggerConfig
     {
@@ -32,7 +32,7 @@ namespace MD.UserAccount
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "MD.UserAccount");
+                        c.SingleApiVersion("v1", "MD.ProfileManagement");
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
@@ -242,7 +242,7 @@ namespace MD.UserAccount
                         //    clientSecret: null,
                         //    realm: "test-realm",
                         //    appName: "Swagger UI"
-                        ////additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
+                        //    //additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
                         //);
 
                         // If your API supports ApiKey, you can override the default values.

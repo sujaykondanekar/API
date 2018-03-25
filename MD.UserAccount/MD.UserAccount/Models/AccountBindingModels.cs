@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
 
-namespace MDAPI.Models
+namespace MD.UserAccount.Models
 {
     // Models used as parameters to AccountController actions.
 

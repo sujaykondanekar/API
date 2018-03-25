@@ -8,10 +8,10 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using MDAPI.Providers;
-using MDAPI.Models;
+using MD.UserAccount.Providers;
+using MD.UserAccount.Models;
 
-namespace MDAPI
+namespace MD.UserAccount
 {
     public partial class Startup
     {

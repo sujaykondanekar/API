@@ -13,14 +13,14 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using MDAPI.Models;
-using MDAPI.Providers;
-using MDAPI.Results;
+using MD.UserAccount.Models;
+using MD.UserAccount.Providers;
+using MD.UserAccount.Results;
 
-namespace MDAPI.Controllers
+namespace MD.UserAccount.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/Account")]
+    [RoutePrefix("account")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
@@ -53,7 +53,8 @@ namespace MDAPI.Controllers
 
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        [Route("UserInfo")]
+        [Route("userInfo")]
+        [HttpGet]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
@@ -67,7 +68,8 @@ namespace MDAPI.Controllers
         }
 
         // POST api/Account/Logout
-        [Route("Logout")]
+        [Route("logout")]
+        [HttpPost]
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
@@ -75,7 +77,8 @@ namespace MDAPI.Controllers
         }
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
-        [Route("ManageInfo")]
+        [Route("manageInfo")]
+        [HttpGet]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -115,7 +118,8 @@ namespace MDAPI.Controllers
         }
 
         // POST api/Account/ChangePassword
-        [Route("ChangePassword")]
+        [Route("password/change")]
+        [HttpPost]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -135,7 +139,8 @@ namespace MDAPI.Controllers
         }
 
         // POST api/Account/SetPassword
-        [Route("SetPassword")]
+        [Route("password/set")]
+        [HttpPost]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -153,8 +158,62 @@ namespace MDAPI.Controllers
             return Ok();
         }
 
+      
+        // POST api/Account/RemoveLogin
+        [Route("login")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result;
+
+            if (model.LoginProvider == LocalLoginProvider)
+            {
+                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+            }
+            else
+            {
+                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
+                    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+            }
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [Route("register")]
+        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
         // POST api/Account/AddExternalLogin
-        [Route("AddExternalLogin")]
+        [Route("external/login")]
+        [HttpPost]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -190,41 +249,13 @@ namespace MDAPI.Controllers
 
             return Ok();
         }
-
-        // POST api/Account/RemoveLogin
-        [Route("RemoveLogin")]
-        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            IdentityResult result;
-
-            if (model.LoginProvider == LocalLoginProvider)
-            {
-                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
-            }
-            else
-            {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-                    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
-            }
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
-        }
-
+        
         // GET api/Account/ExternalLogin
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
-        [Route("ExternalLogin", Name = "ExternalLogin")]
+        [Route("external/login/{provider}")]
+        [HttpGet]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
             if (error != null)
@@ -277,9 +308,10 @@ namespace MDAPI.Controllers
             return Ok();
         }
 
-        // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
+       // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
-        [Route("ExternalLogins")]
+        [Route("external/login/{returnUrl}")]
+        [HttpGet]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
             IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
@@ -318,32 +350,11 @@ namespace MDAPI.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
-        }
-
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        [Route("RegisterExternal")]
+        [Route("external/register")]
+        [HttpPost]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
             if (!ModelState.IsValid)

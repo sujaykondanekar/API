@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MDAPI.Models
+namespace MD.UserAccount.Models
 {
     // Models returned by AccountController actions.
 
