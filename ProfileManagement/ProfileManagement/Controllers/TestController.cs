@@ -6,18 +6,18 @@ using System.Web.Http;
 
 namespace MD.ProfileManagement.Controllers
 {
-    public class ProfileController : BaseController
+    public class TestController : BaseController
     {
-        private IProfileManager profileManager;
-        public ProfileController(IProfileManager profileManager)
+        private ITestManager testManager;
+        public TestController(ITestManager testManager)
         {
-            this.profileManager = profileManager;
+            this.testManager = testManager;
         }
 
         // GET: api/Profile
         public async Task<IHttpActionResult> GetAsync()
         {
-            var result = await profileManager.GetAllProfilesAsync(GetUserFromRequest());
+            var result = await testManager.GetAllTestsAsync();
             if (result != null && result.Any())
             {
                 return Ok(result);
@@ -27,9 +27,9 @@ namespace MD.ProfileManagement.Controllers
         }
 
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetAsyncById(int profileId)
+        public async Task<IHttpActionResult> GetAsyncById(int testId)
         {
-            var result = await profileManager.GetProfileAsync(profileId);
+            var result = await testManager.GetTestAsync(testId);
             if (result != null)
             {
                 return Ok(result);
@@ -40,18 +40,17 @@ namespace MD.ProfileManagement.Controllers
         }
 
         [AcceptVerbs("POST", "PUT")]
-        public async Task<IHttpActionResult> UpsertAsyn(Profile profile)
+        public async Task<IHttpActionResult> UpsertAsyn(Test test)
         {
-            await profileManager.UpsertProfileAsync(GetUserFromRequest(), profile);
+            await testManager.UpsertTestAsync(test);
             return Ok();
         }
 
-
         // DELETE: api/Profile/5
         [AcceptVerbs("DELETE")]
-        public async Task<IHttpActionResult> DeleteAsync(int profileId)
+        public async Task<IHttpActionResult> DeleteAsync(int testId)
         {
-            await profileManager.DeleteProfileAsync(profileId);
+            await testManager.DeleteTestAsync(testId);
             return Ok();
         }
     }

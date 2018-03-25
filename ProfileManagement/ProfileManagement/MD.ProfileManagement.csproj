@@ -135,13 +135,19 @@
     <Compile Include="App_Start\APIContainerConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="DataContract\Test.cs" />
     <Compile Include="DataContract\Profile.cs" />
     <Compile Include="DataSource\ProfileManagementDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\Settings.cs" />
+    <Compile Include="Manager\ITestManager.cs" />
+    <Compile Include="Manager\ITestDataManager.cs" />
+    <Compile Include="Manager\TestManager.cs" />
+    <Compile Include="Manager\TestDataManager.cs" />
     <Compile Include="Manager\ProfileDataManager.cs" />
     <Compile Include="Manager\ProfileManager.cs" />
     <Compile Include="Manager\IProfileDataManager.cs" />
