@@ -50,19 +50,15 @@ namespace MD.UserAccount.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
-        // GET api/Account/UserInfo
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        // GET api/Account/UserInfo      
         [Route("userInfo")]
         [HttpGet]
-        public UserInfoViewModel GetUserInfo()
+        public UserInfo GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-            return new UserInfoViewModel
+            return new UserInfo
             {
                 Email = User.Identity.GetUserName(),
-                HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                UserId = User.Identity.GetUserId()
             };
         }
 
@@ -128,7 +124,7 @@ namespace MD.UserAccount.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -157,7 +153,7 @@ namespace MD.UserAccount.Controllers
             return Ok();
         }
 
-      
+
         // POST api/Account/RemoveLogin
         [Route("login/remove")]
         [HttpDelete]
@@ -248,7 +244,23 @@ namespace MD.UserAccount.Controllers
 
             return Ok();
         }
-        
+
+
+        // GET api/Account/UserInfo
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("external/userInfo")]
+        [HttpGet]
+        public UserInfoViewModel GetExternalUserInfo()
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+            return new UserInfoViewModel
+            {
+                Email = User.Identity.GetUserName(),
+                HasRegistered = externalLogin == null,
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+            };
+        }
         // GET api/Account/ExternalLogin
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
@@ -288,9 +300,9 @@ namespace MD.UserAccount.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -307,7 +319,7 @@ namespace MD.UserAccount.Controllers
             return Ok();
         }
 
-       // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
+        // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
         [Route("external/login/{returnUrl}")]
         [HttpGet]
@@ -378,7 +390,7 @@ namespace MD.UserAccount.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }

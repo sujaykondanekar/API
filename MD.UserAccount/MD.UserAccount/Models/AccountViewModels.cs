@@ -24,6 +24,12 @@ namespace MD.UserAccount.Models
         public IEnumerable<ExternalLoginViewModel> ExternalLoginProviders { get; set; }
     }
 
+    public class UserInfo
+    {
+        public string Email { get; set; }
+        public string UserId { get; set; }
+    }
+
     public class UserInfoViewModel
     {
         public string Email { get; set; }
