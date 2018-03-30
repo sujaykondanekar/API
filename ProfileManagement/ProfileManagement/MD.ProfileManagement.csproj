@@ -135,16 +135,16 @@
     <Compile Include="App_Start\APIContainerConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\LabReportController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\Settings.cs" />
-    <Compile Include="Manager\ITestManager.cs" />
-    <Compile Include="Manager\TestManager.cs" />
+    <Compile Include="Contract\ILabReportManager.cs" />
+    <Compile Include="Manager\LabReportManager.cs" />
     <Compile Include="Manager\ProfileManager.cs" />
-    <Compile Include="Manager\IProfileManager.cs" />
+    <Compile Include="Contract\IProfileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

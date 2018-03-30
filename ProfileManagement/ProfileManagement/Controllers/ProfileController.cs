@@ -1,5 +1,6 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.Manager;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -14,7 +15,7 @@ namespace MD.ProfileManagement.Controllers
             this.profileManager = profileManager;
         }
 
-        // GET: api/Profile
+        [Route("profile")]       
         public async Task<IHttpActionResult> GetAsync()
         {
             var result = await profileManager.GetAllProfilesAsync(GetUserFromRequest());
@@ -26,6 +27,7 @@ namespace MD.ProfileManagement.Controllers
             return NotFound();
         }
 
+        [Route("profile/{profileId}")]
         [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> GetAsyncById(int profileId)
         {
@@ -39,20 +41,25 @@ namespace MD.ProfileManagement.Controllers
 
         }
 
+        [Route("profile")]
         [AcceptVerbs("POST", "PUT")]
         public async Task<IHttpActionResult> UpsertAsyn(Profile profile)
         {
-            await profileManager.UpsertProfileAsync(GetUserFromRequest(), profile);
-            return Ok();
+            int profileId = profile.Id ?? 0;
+            int updatedProfileId = await profileManager.UpsertProfileAsync(GetUserFromRequest(), profile);
+            if (profileId != updatedProfileId)
+            {
+                return Created(new Uri($"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/profile/{updatedProfileId}"), updatedProfileId);
+            }
+            return Ok(profile.Id);
         }
 
-
-        // DELETE: api/Profile/5
+        [Route("profile/{profileId}")]      
         [AcceptVerbs("DELETE")]
         public async Task<IHttpActionResult> DeleteAsync(int profileId)
         {
             await profileManager.DeleteProfileAsync(profileId);
-            return Ok();
+            return Ok("Deleted");
         }
     }
 }

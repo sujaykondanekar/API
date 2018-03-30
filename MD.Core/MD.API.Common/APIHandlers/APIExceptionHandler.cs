@@ -20,7 +20,7 @@ namespace MD.Common.Handlers
                 //do nothing
             }
             context.Result = new ResponseMessageResult(context.Request.CreateResponse(HttpStatusCode.InternalServerError,
-            "Unable to process the request currently. Please try again later."));
+            "Unable to process the request currently. Please try again after some time."));
          }
     }
 }

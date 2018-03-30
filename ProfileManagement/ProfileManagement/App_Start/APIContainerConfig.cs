@@ -13,8 +13,8 @@ namespace MD.ProfileManagement
             var container = new UnityContainer();
             container.RegisterType<IProfileDataManager, ProfileDataManager>();
             container.RegisterType<IProfileManager, ProfileManager>();
-            container.RegisterType<ITestDataManager, TestDataManager>();
-            container.RegisterType<ITestManager, TestManager>();
+            container.RegisterType<ILabReportDataManager, LabReportDataManager>();
+            container.RegisterType<ILabReportManager, LabReportManager>();
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }

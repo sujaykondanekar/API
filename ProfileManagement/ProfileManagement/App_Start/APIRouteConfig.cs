@@ -23,7 +23,7 @@ namespace MD.ProfileManagement
         public static void RegisterRoutes(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();            
-            AddRoutesToConfiguration(config.Routes);
+            //AddRoutesToConfiguration(config.Routes);
         }
 
         private static void AddRoutesToConfiguration(HttpRouteCollection routeCollection)

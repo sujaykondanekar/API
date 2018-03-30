@@ -1,4 +1,6 @@
-﻿namespace MD.ProfileManagement.DataContract
+﻿using System;
+
+namespace MD.ProfileManagement.DataContract
 {
     public class Profile
     {
@@ -18,7 +20,7 @@
 
         public double Height { get; set; }
 
-        public int Age { get; set; }
+        public DateTime DOB { get; set; }
 
         public string Report { get; set; }
     }

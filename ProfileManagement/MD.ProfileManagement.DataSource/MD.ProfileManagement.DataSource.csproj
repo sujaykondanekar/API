@@ -47,11 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataManager\IProfileDataManager.cs" />
-    <Compile Include="DataManager\ITestDataManager.cs" />
+    <Compile Include="Contract\IProfileDataManager.cs" />
+    <Compile Include="Contract\ILabReportDataManager.cs" />
     <Compile Include="DataManager\ProfileDataManager.cs" />
-    <Compile Include="DataManager\TestDataManager.cs" />
+    <Compile Include="DataManager\LabReportDataManager.cs" />
     <Compile Include="DataContext\ProfileManagementDbContext.cs" />
+    <Compile Include="DataModel\MemberProfile.cs" />
+    <Compile Include="Helper\ModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
