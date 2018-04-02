@@ -2,8 +2,8 @@
 {
     public enum ExternalProvider
     {
-        Facebook,
-        Google,
-        Twitter
+        facebook,
+        google,
+        twitter
     }
 }

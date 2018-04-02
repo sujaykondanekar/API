@@ -176,7 +176,7 @@ namespace MD.UserAccount.Controllers
                 return BadRequest($"Invalid provider : {model.Provider}");
             }
 
-            if (externalProvider == ExternalProvider.Facebook)
+            if (externalProvider == ExternalProvider.facebook)
             {
                 var fbclient = new Facebook.FacebookClient(model.Token);
                 dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
