@@ -1,4 +1,5 @@
-﻿using MD.UserAccount.Models;
+﻿using MD.UserAccount.Helper;
+using MD.UserAccount.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -49,6 +50,8 @@ namespace MD.UserAccount.Providers
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
+            var accessExpiration = DateTimeOffset.Now.AddDays(Settings.TokenExpirationDurationInDays);
+            context.Properties.ExpiresUtc = accessExpiration;
             foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
@@ -87,7 +90,7 @@ namespace MD.UserAccount.Providers
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
-                { "userName", userName }
+                { "userName", userName }               
             };
             return new AuthenticationProperties(data);
         }

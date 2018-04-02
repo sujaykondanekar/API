@@ -28,6 +28,8 @@ namespace MD.UserAccount.Models
     {
         public string Email { get; set; }
         public string UserId { get; set; }
+
+        public string LoginProvider { get; set; }
     }
 
     public class UserInfoViewModel

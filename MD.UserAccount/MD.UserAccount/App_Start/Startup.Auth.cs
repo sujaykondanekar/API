@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using MD.UserAccount.Providers;
 using MD.UserAccount.Models;
+using MD.UserAccount.Helper;
 
 namespace MD.UserAccount
 {
@@ -38,7 +39,7 @@ namespace MD.UserAccount
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(Settings.TokenExpirationDurationInDays),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
             };

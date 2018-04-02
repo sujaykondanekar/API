@@ -14,5 +14,13 @@ namespace MD.UserAccount.Helper
                 return log;
             }
         }
+
+        public static int TokenExpirationDurationInDays
+        {
+            get
+            {
+                return int.Parse(ConfigurationManager.AppSettings["tokenExpirationDurationInDays"]);
+            }
+        }
     }
 }
