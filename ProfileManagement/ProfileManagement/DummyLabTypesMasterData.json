@@ -1,0 +1,29 @@
+[
+    {
+      "TestTypeId": 20,
+      "TestName": "Glucose",
+      "TestCategory": "Blood Test",
+      "SearchKeyWords": [ "Potassium", "POTASSIUM" ],
+      "Unit": "mg/dl",
+      "MinValue": "69",
+      "MaxValue": "99"
+    },
+    {
+      "TestTypeId": 20,
+      "TestName": "Glucose",
+      "TestCategory": "Blood Test",
+      "SearchKeyWords": [ "Potassium", "POTASSIUM" ],
+      "Unit": "mg/dl",
+      "MinValue": "69",
+      "MaxValue": "99"
+    },
+    {
+      "TestTypeId": 21,
+      "TestName": "Total Protein",
+      "TestCategory": "Blood Test",
+      "SearchKeyWords": [ "Total Protein", "Total Protein" ],
+      "Unit": "g/dl",
+      "MinValue": "5.9",
+      "MaxValue": "8.7"
+    }
+  ]

@@ -18,7 +18,7 @@ namespace MD.ProfileManagement.Controllers
         [Route("profile")]       
         public async Task<IHttpActionResult> GetAsync()
         {
-            var result = await profileManager.GetAllProfilesAsync(GetUserFromRequest());
+            var result = await profileManager.GetAllProfilesAsync(UserContext.UserId);
             if (result != null && result.Any())
             {
                 return Ok(result);

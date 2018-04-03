@@ -16,5 +16,6 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         Task<int> UpsertReportAsync(SlimLabReport report);
 
+        Task<IEnumerable<LabTestType>> GetLabTestTypesAsync();
     }
 }

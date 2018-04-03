@@ -1,8 +1,11 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.DataContract.Comparer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,13 +42,13 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task<IEnumerable<SlimLabReport>> GetAllReportAsync(int profileId)
         {
-            return await dbContext.LabReports.Where(report=> report.ProfileId == profileId).ToListAsync();
+            return await dbContext.LabReports.Where(report => report.ProfileId == profileId).ToListAsync();
         }
 
         public async Task<SlimLabReport> GetReportAsync(int reportId)
         {
             return await dbContext.LabReports.Where(report => report.Id == reportId).FirstOrDefaultAsync();
-        }     
+        }
 
         public async Task<int> UpsertReportAsync(SlimLabReport report)
         {
@@ -56,7 +59,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
             else
             {
                 SlimLabReport reportInDb = await dbContext.LabReports.Where(rpt => rpt.Id == report.Id).FirstOrDefaultAsync();
-                if(reportInDb == null)
+                if (reportInDb == null)
                 {
                     dbContext.LabReports.Add(report);
                 }
@@ -70,16 +73,34 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
                     });
 
-                    reportInDb.Tests.Except(report.Tests, comparer).ToList().ForEach(test=>
+                    reportInDb.Tests.Except(report.Tests, comparer).ToList().ForEach(test =>
                     {
-                    reportInDb.Tests.ToList().Remove(test);
-                });
-                   
+                        reportInDb.Tests.ToList().Remove(test);
+                    });
+
                 }
             }
 
             await dbContext.SaveChangesAsync();
             return report.Id.Value;
+        }
+
+        public async Task<IEnumerable<LabTestType>> GetLabTestTypesAsync()
+        {
+            var result = await new TaskFactory().StartNew<IEnumerable<LabTestType>>(() =>
+            {
+                return createDummyTestTypes();
+            });
+
+            return result;
+        }
+
+        private IEnumerable<LabTestType> createDummyTestTypes()
+        {
+            string jsonData = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/DummyLabTypesMasterData.json");
+            var list = JsonConvert.DeserializeObject<List<LabTestType>>(jsonData);           
+            return list;
+
         }
     }
 }

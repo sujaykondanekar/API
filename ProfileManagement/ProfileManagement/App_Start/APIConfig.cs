@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using MD.Common.Handlers;
+using Microsoft.Owin.Security.OAuth;
 
 namespace MD.ProfileManagement
 {
@@ -18,11 +19,11 @@ namespace MD.ProfileManagement
             {
                 config.MessageHandlers.Add(new RequestLoggingHandler());
             }
-            if (Settings.AuthenticateRequest)
-            {
-                config.MessageHandlers.Add(new TokenAuthorizationHandler());
-            }
             config.Services.Replace(typeof(IExceptionHandler), new APIExceptionHandler());
+
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
         }
     }
 }

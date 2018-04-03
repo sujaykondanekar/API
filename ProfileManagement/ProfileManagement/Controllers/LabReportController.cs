@@ -1,19 +1,21 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.Manager;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace MD.ProfileManagement.Controllers
 {
-
-    public class LabReportController : ApiController
+    public class LabReportController : BaseController
     {
         private LabReportManager manager;
         public LabReportController(LabReportManager manager)
         {
             this.manager = manager;
         }
-      
+
+        [Route("profile/{profileId}/labReports")]
         [HttpGet]
         public async Task<IHttpActionResult> GetAsync(int profileId)
         {
@@ -29,9 +31,9 @@ namespace MD.ProfileManagement.Controllers
         //[HttpGet]
         //public async Task<LabReport> GetAsync(int profileId)
         //{
-    
-        //}
 
+        //}
+        [Route("labReport/{reportId}")]
         [HttpGet]
         public async Task<IHttpActionResult> GetAsyncById(int reportId)
         {
@@ -44,18 +46,31 @@ namespace MD.ProfileManagement.Controllers
             return NotFound();
         }
 
-       [HttpDelete]
+        [Route("labReport/{reportId}")]
+        [HttpDelete]
         public async Task<IHttpActionResult> DeleteAsync(int reportId)
         {
             await manager.DeleteReportAsync(reportId);
             return Ok();
-        } 
-
+        }
+        [Route("labReport")]
         [AcceptVerbs("POST", "PUT")]
         public async Task<IHttpActionResult> UpsertAsyn(SlimLabReport report)
         {
             await manager.UpsertReportAsync(report);
             return Ok();
+        }
+
+        [Route("labReport/alltypes")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetLabTestTypes()
+        {
+            var result = await manager.GetLabTestTypesAsync();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
         }
     }
 }

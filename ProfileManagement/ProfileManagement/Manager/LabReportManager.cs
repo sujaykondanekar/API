@@ -1,5 +1,6 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.DataSource.DataManager;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -35,6 +36,11 @@ namespace MD.ProfileManagement.Manager
         public Task<int> UpsertReportAsync(SlimLabReport report)
         {
             return dataManager.UpsertReportAsync(report);
+        }
+
+        public Task<IEnumerable<LabTestType>> GetLabTestTypesAsync()
+        {
+            return dataManager.GetLabTestTypesAsync();
         }
     }
 }
