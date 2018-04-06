@@ -15,7 +15,7 @@ namespace MD.ProfileManagement.Controllers
             this.manager = manager;
         }
 
-        [Route("profile/{profileId}/labReports")]
+        [Route("profile/{profileId}/labreports")]
         [HttpGet]
         public async Task<IHttpActionResult> GetAsync(int profileId)
         {
@@ -33,7 +33,7 @@ namespace MD.ProfileManagement.Controllers
         //{
 
         //}
-        [Route("labReport/{reportId}")]
+        [Route("labreport/{reportId}")]
         [HttpGet]
         public async Task<IHttpActionResult> GetAsyncById(int reportId)
         {
@@ -46,14 +46,14 @@ namespace MD.ProfileManagement.Controllers
             return NotFound();
         }
 
-        [Route("labReport/{reportId}")]
+        [Route("labreport/{reportId}")]
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteAsync(int reportId)
         {
             await manager.DeleteReportAsync(reportId);
             return Ok();
         }
-        [Route("labReport")]
+        [Route("labreport")]
         [AcceptVerbs("POST", "PUT")]
         public async Task<IHttpActionResult> UpsertAsyn(SlimLabReport report)
         {
@@ -61,7 +61,7 @@ namespace MD.ProfileManagement.Controllers
             return Ok();
         }
 
-        [Route("labReport/alltypes")]
+        [Route("labreport/alltypes")]
         [HttpGet]
         public async Task<IHttpActionResult> GetLabTestTypes()
         {

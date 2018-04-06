@@ -159,7 +159,7 @@ namespace MD.UserAccount.Controllers
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            return Created(new Uri($"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/token"), new { Email = model.Email});
         }
 
 
