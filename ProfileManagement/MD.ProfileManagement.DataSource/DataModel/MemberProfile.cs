@@ -14,7 +14,7 @@ namespace MD.ProfileManagement.DataSource.DataModel
         [Key]
         public  int ProfileID { get; set; }
         public string ProfileName { get; set; }
-        public int UserID { get; set; }
+        public string UserID { get; set; }
         public bool SendMedicineReminder { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime InsertedDate { get; set; }
@@ -24,6 +24,6 @@ namespace MD.ProfileManagement.DataSource.DataModel
         public String Gender { get; set; }
         public double Weight { get; set; }
         public double Height { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace MD.ProfileManagement.DataSource.Helper
                 LastName = obj.LastName,
                 ProfileName = obj.ProfileName,
                 ProfileID = obj.Id ?? 0,
-                UserID = Convert.ToInt32(obj.UserId)
+                UserID = obj.UserId               
             };
         }
     }

@@ -54,6 +54,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
             if (profile.Id == null)
             {
                 dbProfile.InsertedDate = DateTime.Now;
+                dbProfile.UpdatedDate = DateTime.Now;
                 dbProfile.IsDeleted = false;
                 dbContext.Profiles.Add(dbProfile);
             }

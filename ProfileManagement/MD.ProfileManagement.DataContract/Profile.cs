@@ -20,8 +20,8 @@ namespace MD.ProfileManagement.DataContract
 
         public double Height { get; set; }
 
-        public DateTime DOB { get; set; }
+        public DateTime ? DOB { get; set; }
 
-        public string Report { get; set; }
+        public string ConsolidatedReport { get; set; }
     }
 }

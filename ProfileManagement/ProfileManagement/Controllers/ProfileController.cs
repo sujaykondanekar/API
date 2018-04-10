@@ -46,7 +46,7 @@ namespace MD.ProfileManagement.Controllers
         public async Task<IHttpActionResult> UpsertAsyn(Profile profile)
         {
             int profileId = profile.Id ?? 0;
-            int updatedProfileId = await profileManager.UpsertProfileAsync(GetUserFromRequest(), profile);
+            int updatedProfileId = await profileManager.UpsertProfileAsync(UserContext.UserId, profile);
             if (profileId != updatedProfileId)
             {
                 return Created(new Uri($"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/profile/{updatedProfileId}"), updatedProfileId);

@@ -7,15 +7,18 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
 namespace MD.UserAccount.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("account")]
     public class AccountController : ApiController
     {
@@ -156,10 +159,14 @@ namespace MD.UserAccount.Controllers
 
             if (!result.Succeeded)
             {
+                if (result.Errors != null && result.Errors.Where(error => error.Contains("is already taken")).Any())
+                {
+                    return BadRequest($"Email {model.Email} is already taken");
+                }
                 return GetErrorResult(result);
             }
 
-            return Created(new Uri($"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/token"), new { Email = model.Email});
+            return Created(new Uri($"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/token"), new { Email = model.Email });
         }
 
 
@@ -178,10 +185,24 @@ namespace MD.UserAccount.Controllers
 
             if (externalProvider == ExternalProvider.facebook)
             {
-                var fbclient = new Facebook.FacebookClient(model.Token);
-                dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
-                id = fb.id;
-                userName = fb.email;
+                try
+                {
+                    var fbclient = new Facebook.FacebookClient(model.Token);
+                    dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
+                    id = fb.id;
+                    userName = fb.email;
+                }
+                catch (Exception ex)
+                {
+                    HttpContent contentPost = new StringContent("Facebook : " + ex.Message, Encoding.UTF8, "application/text");
+                    var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                    {
+                        
+                        Content = contentPost
+
+                    };
+                    throw new HttpResponseException(msg);
+                }
             }
 
             //TODO: Google, LinkedIn
