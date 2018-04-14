@@ -197,7 +197,7 @@ namespace MD.UserAccount.Controllers
                     HttpContent contentPost = new StringContent("Facebook : " + ex.Message, Encoding.UTF8, "application/text");
                     var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
                     {
-                        
+
                         Content = contentPost
 
                     };
@@ -235,6 +235,10 @@ namespace MD.UserAccount.Controllers
             }
             else
             {
+                if (await UserManager.FindByEmailAsync(userName) != null || await UserManager.FindByNameAsync(userName) != null)
+                {
+                    return BadRequest($"External user {userName} is already registered");
+                }
 
                 user = new ApplicationUser() { UserName = userName, Email = userName };
 

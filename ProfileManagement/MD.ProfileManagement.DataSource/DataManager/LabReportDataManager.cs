@@ -1,7 +1,8 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.DataContract.Comparer;
+using MD.ProfileManagement.DataSource.DataModel;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using MD.ProfileManagement.DataSource.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -87,20 +88,8 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task<IEnumerable<LabTestType>> GetLabTestTypesAsync()
         {
-            var result = await new TaskFactory().StartNew<IEnumerable<LabTestType>>(() =>
-            {
-                return createDummyTestTypes();
-            });
-
-            return result;
-        }
-
-        private IEnumerable<LabTestType> createDummyTestTypes()
-        {
-            string jsonData = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/DummyLabTypesMasterData.json");
-            var list = JsonConvert.DeserializeObject<List<LabTestType>>(jsonData);           
-            return list;
-
+            var result = await dbContext.Attributes.Where(att => att.isDeleted == false).ToListAsync();
+            return result.Select(lt => lt.ConvertToDomain()).ToList(); ;
         }
     }
 }

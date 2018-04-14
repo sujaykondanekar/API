@@ -55,6 +55,8 @@
     <Compile Include="DataManager\ProfileDataManager.cs" />
     <Compile Include="DataManager\LabReportDataManager.cs" />
     <Compile Include="DataContext\ProfileManagementDbContext.cs" />
+    <Compile Include="DataModel\MDAttributeGroup.cs" />
+    <Compile Include="DataModel\MDAttribute.cs" />
     <Compile Include="DataModel\MemberProfile.cs" />
     <Compile Include="Helper\ModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

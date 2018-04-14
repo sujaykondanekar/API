@@ -1,10 +1,6 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.DataSource.DataModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MD.ProfileManagement.DataSource.Helper
 {
@@ -25,7 +21,7 @@ namespace MD.ProfileManagement.DataSource.Helper
             };
         }
 
-        internal static MemberProfile ConvertToData(this Profile obj)
+        internal static MemberProfile ConvertToDomain(this Profile obj)
         {
             return new MemberProfile()
             {
@@ -39,5 +35,21 @@ namespace MD.ProfileManagement.DataSource.Helper
                 UserID = obj.UserId               
             };
         }
+
+
+        public static LabTestType ConvertToDomain(this MDAttribute att)
+        {
+            return new LabTestType()
+            {
+                TestName = att.AttributeName,
+                SearchKeyWords = new List<string>() { att.AttributeName },
+                Unit = att.Unit,
+                MaxValue = double.Parse(att.RefMaxValue),
+                MinValue = double.Parse(att.RefMinValue),
+                TestTypeId = att.AttributeID,
+                TestCategory = att.AttributeGroup.AttributeGroupName
+            };
+        }
+       
     }
 }

@@ -26,6 +26,11 @@ namespace MD.ProfileManagement.DataSource
 
         public virtual DbSet<SlimLabReport> LabReports { get; set; }
 
+
+        public virtual DbSet<MDAttribute> Attributes { get; set; }
+
+        public virtual DbSet<MDAttributeGroup> AttributeGroups { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer<ProfileManagementDbContext>(null);

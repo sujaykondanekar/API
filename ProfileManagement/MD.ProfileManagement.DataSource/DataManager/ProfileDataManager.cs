@@ -48,7 +48,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
         public async Task<int> UpsertProfileAsync(string userId, Profile profile)
         {
             profile.UserId = userId;
-            MemberProfile dbProfile = profile.ConvertToData();
+            MemberProfile dbProfile = profile.ConvertToDomain();
             dbProfile.UpdatedDate = DateTime.Now;
 
             if (profile.Id == null)
