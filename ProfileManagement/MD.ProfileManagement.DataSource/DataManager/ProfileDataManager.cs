@@ -48,7 +48,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
         public async Task<int> UpsertProfileAsync(string userId, Profile profile)
         {
             profile.UserId = userId;
-            MemberProfile dbProfile = profile.ConvertToDomain();
+            MDMemberProfile dbProfile = profile.ConvertToDbEntity();
             dbProfile.UpdatedDate = DateTime.Now;
 
             if (profile.Id == null)
@@ -79,7 +79,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
             return profile.Id.Value;
         }
 
-        private void UpdateProfileValues(MemberProfile profileInDB, Profile profile)
+        private void UpdateProfileValues(MDMemberProfile profileInDB, Profile profile)
         {
             profileInDB.FirstName = profile.FirstName;
             profileInDB.LastName = profile.LastName;

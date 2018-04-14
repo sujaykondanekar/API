@@ -6,7 +6,7 @@ namespace MD.ProfileManagement.DataSource.Helper
 {
     public static class ModelMapper
     {
-        internal static Profile ConvertToDomain(this MemberProfile obj)
+        internal static Profile ConvertToDomain(this MDMemberProfile obj)
         {
             return new Profile()
             {
@@ -21,9 +21,9 @@ namespace MD.ProfileManagement.DataSource.Helper
             };
         }
 
-        internal static MemberProfile ConvertToDomain(this Profile obj)
+        internal static MDMemberProfile ConvertToDbEntity(this Profile obj)
         {
-            return new MemberProfile()
+            return new MDMemberProfile()
             {
                 DOB = obj.DOB,
                 FirstName = obj.FirstName,
@@ -32,7 +32,7 @@ namespace MD.ProfileManagement.DataSource.Helper
                 LastName = obj.LastName,
                 ProfileName = obj.ProfileName,
                 ProfileID = obj.Id ?? 0,
-                UserID = obj.UserId               
+                UserID = obj.UserId
             };
         }
 
@@ -50,6 +50,27 @@ namespace MD.ProfileManagement.DataSource.Helper
                 TestCategory = att.AttributeGroup.AttributeGroupName
             };
         }
-       
+
+        public static MDLabReport ConvertToDbEntity(this LabReport report)
+        {
+            return new MDLabReport()
+            {
+                ProfileID = report.ProfileId,
+                LabReportId = report.ReportId ?? 0,
+                Report = report.ReportName,
+                ReportDate = report.ReportDate
+            };
+        }
+
+        public static LabReport ConvertToDomain(this MDLabReport report)
+        {
+            return new LabReport()
+            {
+                ProfileId = report.ProfileID,
+                ReportId = report.LabReportId,
+                ReportName = report.Report,
+                ReportDate = report.ReportDate
+            };
+        }
     }
 }

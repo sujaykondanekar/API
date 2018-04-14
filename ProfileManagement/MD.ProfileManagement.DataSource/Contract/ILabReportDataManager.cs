@@ -10,11 +10,11 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         Task DeleteAllReportAsync(int profileId);
 
-        Task<IEnumerable<SlimLabReport>> GetAllReportAsync(int profileId);
+        Task<IEnumerable<LabReport>> GetAllReportAsync(int profileId);
 
-        Task<SlimLabReport> GetReportAsync(int reportId);
+        Task<LabReport> GetReportAsync(int reportId);
 
-        Task<int> UpsertReportAsync(SlimLabReport report);
+        Task<long> UpsertReportAsync(LabReport report);
 
         Task<IEnumerable<LabTestType>> GetLabTestTypesAsync();
     }

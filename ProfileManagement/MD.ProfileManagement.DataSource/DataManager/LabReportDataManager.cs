@@ -23,7 +23,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task DeleteReportAsync(int reportId)
         {
-            var result = await dbContext.LabReports.Where(report => report.Id == reportId).FirstOrDefaultAsync();
+            var result = await dbContext.LabReports.Where(report => report.LabReportId == reportId).FirstOrDefaultAsync();
             if (result != null)
             {
                 dbContext.LabReports.Remove(result);
@@ -33,7 +33,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task DeleteAllReportAsync(int profileId)
         {
-            var result = await dbContext.LabReports.Where(report => report.ProfileId == profileId).ToListAsync();
+            var result = await dbContext.LabReports.Where(report => report.ProfileID == profileId).ToListAsync();
             if (result != null)
             {
                 dbContext.LabReports.RemoveRange(result);
@@ -41,55 +41,75 @@ namespace MD.ProfileManagement.DataSource.DataManager
             }
         }
 
-        public async Task<IEnumerable<SlimLabReport>> GetAllReportAsync(int profileId)
+        public async Task<IEnumerable<LabReport>> GetAllReportAsync(int profileId)
         {
-            return await dbContext.LabReports.Where(report => report.ProfileId == profileId).ToListAsync();
+            var result = await dbContext.LabReports.Where(report => report.ProfileID == profileId).ToListAsync();
+            return result.Select(lr => lr.ConvertToDomain()).ToList();
         }
 
-        public async Task<SlimLabReport> GetReportAsync(int reportId)
+        public async Task<LabReport> GetReportAsync(int reportId)
         {
-            return await dbContext.LabReports.Where(report => report.Id == reportId).FirstOrDefaultAsync();
-        }
-
-        public async Task<int> UpsertReportAsync(SlimLabReport report)
-        {
-            if (report.Id == null)
+            var result =  await dbContext.LabReports.Where(report => report.LabReportId == reportId).FirstOrDefaultAsync();
+            if (result != null)
             {
-                dbContext.LabReports.Add(report);
+                return result.ConvertToDomain();
+            }
+            return null;
+        }
+
+        public async Task<long> UpsertReportAsync(LabReport report)
+        {
+            MDLabReport dbLabReport;
+            if (report.ReportId == null || report.ReportId==0)
+            {
+                dbLabReport = GetDBLabReport(report);
+                dbContext.LabReports.Add(dbLabReport);
             }
             else
             {
-                SlimLabReport reportInDb = await dbContext.LabReports.Where(rpt => rpt.Id == report.Id).FirstOrDefaultAsync();
-                if (reportInDb == null)
+                dbLabReport = await dbContext.LabReports.Where(rpt => rpt.LabReportId == report.ReportId).FirstOrDefaultAsync();
+                if (dbLabReport == null)
                 {
-                    dbContext.LabReports.Add(report);
+                    dbLabReport = GetDBLabReport(report);
+                    dbContext.LabReports.Add(dbLabReport);
                 }
                 else
                 {
-                    IEqualityComparer<SlimLabTest> comparer = new TestComparer();
-                    reportInDb.Tests.Intersect(report.Tests, comparer).ToList().ForEach(testInDb =>
-                    {
-                        var test = report.Tests.Where(tst => tst.Id == testInDb.Id).FirstOrDefault();
-                        testInDb.Value = test.Value;
+                    //IEqualityComparer<SlimLabTest> comparer = new TestComparer();
+                    //reportInDb.Tests.Intersect(report.Tests, comparer).ToList().ForEach(testInDb =>
+                    //{
+                    //    var test = report.Tests.Where(tst => tst.Id == testInDb.Id).FirstOrDefault();
+                    //    testInDb.Value = test.Value;
 
-                    });
+                    //});
 
-                    reportInDb.Tests.Except(report.Tests, comparer).ToList().ForEach(test =>
-                    {
-                        reportInDb.Tests.ToList().Remove(test);
-                    });
+                    //reportInDb.Tests.Except(report.Tests, comparer).ToList().ForEach(test =>
+                    //{
+                    //    reportInDb.Tests.ToList().Remove(test);
+                    //});
 
                 }
             }
 
             await dbContext.SaveChangesAsync();
-            return report.Id.Value;
+            return dbLabReport.LabReportId;
         }
 
         public async Task<IEnumerable<LabTestType>> GetLabTestTypesAsync()
         {
             var result = await dbContext.Attributes.Where(att => att.isDeleted == false).ToListAsync();
             return result.Select(lt => lt.ConvertToDomain()).ToList(); ;
+        }
+
+        private MDLabReport GetDBLabReport(LabReport report)
+        {
+            MDLabReport mdReport = report.ConvertToDbEntity();
+            mdReport.InsertedDate = DateTime.Now;
+            mdReport.UpdatedDate = DateTime.Now;
+            mdReport.isDeleted = false;
+            dbContext.LabReports.Add(mdReport);
+
+            return mdReport;
         }
     }
 }

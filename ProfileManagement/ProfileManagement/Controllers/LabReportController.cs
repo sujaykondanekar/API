@@ -1,5 +1,6 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.Manager;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -55,10 +56,15 @@ namespace MD.ProfileManagement.Controllers
         }
         [Route("labreport")]
         [AcceptVerbs("POST", "PUT")]
-        public async Task<IHttpActionResult> UpsertAsyn(SlimLabReport report)
+        public async Task<IHttpActionResult> UpsertAsyn(LabReport report)
         {
-            await manager.UpsertReportAsync(report);
-            return Ok();
+            long updatedReportId = await manager.UpsertReportAsync(report);
+
+            if (report.ReportId != updatedReportId)
+            {
+                return Created(new Uri($"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/labreport/{updatedReportId}"), updatedReportId);
+            }
+            return Ok(report.ReportId);
         }
 
         [Route("labreport/alltypes")]

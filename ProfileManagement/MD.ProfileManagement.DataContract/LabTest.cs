@@ -7,9 +7,9 @@ namespace MD.ProfileManagement.DataContract
         public int TestId { get; set; }
         public string TestName { get; set; }
         public decimal TestValue { get; set; }
-        public string MeasuringUnit { get; set; }
+        public string Unit { get; set; }
         public decimal MinValue { get; set; }
         public decimal MaxValue { get; set; }
-        public IEnumerable<string> CategoryHierarchy { get; set; }
+        public string Category { get; set; }
     }
 }

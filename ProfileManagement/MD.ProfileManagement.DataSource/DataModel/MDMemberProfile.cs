@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MD.ProfileManagement.DataSource.DataModel
 {
     [Table("MemberProfile")]
-    public class MemberProfile
+    public class MDMemberProfile
     {
         [Key]
         public  int ProfileID { get; set; }

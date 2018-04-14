@@ -23,17 +23,17 @@ namespace MD.ProfileManagement.Manager
             return dataManager.DeleteAllReportAsync(profileId);
         }
 
-        public Task<IEnumerable<SlimLabReport>> GetAllReportAsync(int profileId)
+        public Task<IEnumerable<LabReport>> GetAllReportAsync(int profileId)
         {
             return dataManager.GetAllReportAsync(profileId);
         }
 
-        public Task<SlimLabReport> GetReportAsync(int reportId)
+        public Task<LabReport> GetReportAsync(int reportId)
         {
             return dataManager.GetReportAsync(reportId);
         }
 
-        public Task<int> UpsertReportAsync(SlimLabReport report)
+        public Task<long> UpsertReportAsync(LabReport report)
         {
             return dataManager.UpsertReportAsync(report);
         }
