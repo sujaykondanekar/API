@@ -43,7 +43,6 @@
     <Compile Include="Comparer\TestComparer.cs" />
     <Compile Include="LabReport.cs" />
     <Compile Include="LabTestType.cs" />
-    <Compile Include="SlimLabReport.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlimLabTest.cs" />

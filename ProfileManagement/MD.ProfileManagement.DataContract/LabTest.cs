@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MD.ProfileManagement.DataContract
+﻿namespace MD.ProfileManagement.DataContract
 {
     public class LabTest
     {

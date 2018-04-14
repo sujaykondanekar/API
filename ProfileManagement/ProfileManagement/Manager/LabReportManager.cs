@@ -1,6 +1,5 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.DataSource.DataManager;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

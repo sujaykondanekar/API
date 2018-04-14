@@ -1,10 +1,7 @@
 namespace MD.ProfileManagement.DataSource
 {
-    using MD.ProfileManagement.DataContract;
     using MD.ProfileManagement.DataSource.DataModel;
-    using System;
     using System.Data.Entity;
-    using System.Linq;
 
     public class ProfileManagementDbContext : DbContext
     {
