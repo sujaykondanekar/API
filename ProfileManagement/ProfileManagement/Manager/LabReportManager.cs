@@ -1,5 +1,5 @@
 ﻿using MD.ProfileManagement.DataContract;
-using MD.ProfileManagement.DataSource.DataManager;
+using MD.ProfileManagement.DataSource.Contract;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,14 +17,14 @@ namespace MD.ProfileManagement.Manager
             return dataManager.DeleteReportAsync(reportId);
         }
 
-        public Task DeleteAllReportAsync(int profileId)
+        public Task DeleteReportsAsync(int profileId)
         {
-            return dataManager.DeleteAllReportAsync(profileId);
+            return dataManager.DeleteReportsAsync(profileId);
         }
 
-        public Task<IEnumerable<LabReport>> GetAllReportAsync(int profileId)
+        public Task<IEnumerable<LabReport>> GetReportsAsync(int profileId)
         {
-            return dataManager.GetAllReportAsync(profileId);
+            return dataManager.GetReportsAsync(profileId);
         }
 
         public Task<LabReport> GetReportAsync(int reportId)

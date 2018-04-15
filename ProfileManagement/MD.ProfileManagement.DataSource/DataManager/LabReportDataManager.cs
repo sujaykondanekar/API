@@ -1,13 +1,14 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.DataSource.DataModel;
 using MD.ProfileManagement.DataSource.Helper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MD.ProfileManagement.DataSource.DataManager
+namespace MD.ProfileManagement.DataSource.Contract
 {
     public class LabReportDataManager : ILabReportDataManager
     {
@@ -23,22 +24,22 @@ namespace MD.ProfileManagement.DataSource.DataManager
             var result = await dbContext.LabReports.Where(report => report.LabReportId == reportId).FirstOrDefaultAsync();
             if (result != null)
             {
-                dbContext.LabReports.Remove(result);
+                result.isDeleted = true;
                 await dbContext.SaveChangesAsync();
             }
         }
 
-        public async Task DeleteAllReportAsync(int profileId)
+        public async Task DeleteReportsAsync(int profileId)
         {
-            var result = await dbContext.LabReports.Where(report => report.ProfileID == profileId).ToListAsync();
+            var result = dbContext.LabReports.Where(report => report.ProfileID == profileId).ToList();
             if (result != null)
             {
-                dbContext.LabReports.RemoveRange(result);
+                result.ForEach(labReport => labReport.isDeleted = true);
                 await dbContext.SaveChangesAsync();
             }
         }
 
-        public async Task<IEnumerable<LabReport>> GetAllReportAsync(int profileId)
+        public async Task<IEnumerable<LabReport>> GetReportsAsync(int profileId)
         {
             var result = await dbContext.LabReports.Where(report => report.ProfileID == profileId).ToListAsync();
             return result.Select(lr => lr.ConvertToDomain()).ToList();
@@ -46,7 +47,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task<LabReport> GetReportAsync(int reportId)
         {
-            var result =  await dbContext.LabReports.Where(report => report.LabReportId == reportId).FirstOrDefaultAsync();
+            var result = await dbContext.LabReports.Where(report => report.LabReportId == reportId && !report.isDeleted).FirstOrDefaultAsync();
             if (result != null)
             {
                 return result.ConvertToDomain();
@@ -56,36 +57,19 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task<long> UpsertReportAsync(LabReport report)
         {
-            MDLabReport dbLabReport;
-            if (report.ReportId == null || report.ReportId==0)
+
+            MDLabReport dbLabReport = await dbContext.LabReports.Where(rpt => rpt.LabReportId == report.ReportId).FirstOrDefaultAsync();
+            if (dbLabReport == null)
             {
                 dbLabReport = GetDBLabReport(report);
+                dbContext.MemberProfiles.Where(mp => mp.ProfileID == dbLabReport.ProfileID).FirstOrDefault().ConsolidatedReport = dbLabReport.Report;
                 dbContext.LabReports.Add(dbLabReport);
             }
             else
             {
-                dbLabReport = await dbContext.LabReports.Where(rpt => rpt.LabReportId == report.ReportId).FirstOrDefaultAsync();
-                if (dbLabReport == null)
-                {
-                    dbLabReport = GetDBLabReport(report);
-                    dbContext.LabReports.Add(dbLabReport);
-                }
-                else
-                {
-                    //IEqualityComparer<SlimLabTest> comparer = new TestComparer();
-                    //reportInDb.Tests.Intersect(report.Tests, comparer).ToList().ForEach(testInDb =>
-                    //{
-                    //    var test = report.Tests.Where(tst => tst.Id == testInDb.Id).FirstOrDefault();
-                    //    testInDb.Value = test.Value;
+                dbLabReport.Report = JsonConvert.SerializeObject(report.LabTests);
+               dbLabReport.MemberProfile.ConsolidatedReport = dbLabReport.Report;
 
-                    //});
-
-                    //reportInDb.Tests.Except(report.Tests, comparer).ToList().ForEach(test =>
-                    //{
-                    //    reportInDb.Tests.ToList().Remove(test);
-                    //});
-
-                }
             }
 
             await dbContext.SaveChangesAsync();
@@ -98,14 +82,12 @@ namespace MD.ProfileManagement.DataSource.DataManager
             return result.Select(lt => lt.ConvertToDomain()).ToList(); ;
         }
 
-        private MDLabReport GetDBLabReport(LabReport report)
+        internal MDLabReport GetDBLabReport(LabReport report)
         {
             MDLabReport mdReport = report.ConvertToDbEntity();
             mdReport.InsertedDate = DateTime.Now;
             mdReport.UpdatedDate = DateTime.Now;
             mdReport.isDeleted = false;
-            dbContext.LabReports.Add(mdReport);
-
             return mdReport;
         }
     }

@@ -11,9 +11,9 @@ namespace MD.ProfileManagement.Manager
     {
         Task DeleteReportAsync(int reportId);
 
-        Task DeleteAllReportAsync(int profileId);
+        Task DeleteReportsAsync(int profileId);
 
-        Task<IEnumerable<LabReport>> GetAllReportAsync(int profileId);
+        Task<IEnumerable<LabReport>> GetReportsAsync(int profileId);
 
         Task<LabReport> GetReportAsync(int reportId);
 

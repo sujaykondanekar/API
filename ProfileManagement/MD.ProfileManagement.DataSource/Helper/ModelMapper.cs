@@ -1,6 +1,8 @@
 ﻿using MD.ProfileManagement.DataContract;
 using MD.ProfileManagement.DataSource.DataModel;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MD.ProfileManagement.DataSource.Helper
 {
@@ -17,7 +19,8 @@ namespace MD.ProfileManagement.DataSource.Helper
                 LastName = obj.LastName,
                 ProfileName = obj.ProfileName,
                 Id = obj.ProfileID,
-                UserId = obj.UserID.ToString()
+                UserId = obj.UserID.ToString(),
+                ConsolidatedReport = obj.ConsolidatedReport               
             };
         }
 
@@ -32,7 +35,8 @@ namespace MD.ProfileManagement.DataSource.Helper
                 LastName = obj.LastName,
                 ProfileName = obj.ProfileName,
                 ProfileID = obj.Id ?? 0,
-                UserID = obj.UserId
+                UserID = obj.UserId,
+                ConsolidatedReport = obj.ConsolidatedReport                
             };
         }
 
@@ -56,9 +60,20 @@ namespace MD.ProfileManagement.DataSource.Helper
             return new MDLabReport()
             {
                 ProfileID = report.ProfileId,
-                LabReportId = report.ReportId ?? 0,
-                Report = report.ReportName,
-                ReportDate = report.ReportDate
+                LabReportId = report.ReportId ?? 0,                
+                Report = JsonConvert.SerializeObject(report.LabTests),
+                ReportDate = report.ReportDate               
+            };
+        }
+
+        public static MDLabTest ConvertToDbEntity(this LabTest report)
+        {
+            return new MDLabTest()
+            {
+                AttributeID = report.TestId,
+                AttributeValue = report.TestValue.ToString(),
+                LabReportID = report.ReportId,
+                ProfileID = 15
             };
         }
 
@@ -68,8 +83,10 @@ namespace MD.ProfileManagement.DataSource.Helper
             {
                 ProfileId = report.ProfileID,
                 ReportId = report.LabReportId,
-                ReportName = report.Report,
-                ReportDate = report.ReportDate
+                ReportName = string.Empty,
+                ReportDate = report.ReportDate,
+                LabTests = JsonConvert.DeserializeObject<List<LabTest>>(report.Report)
+
             };
         }
     }

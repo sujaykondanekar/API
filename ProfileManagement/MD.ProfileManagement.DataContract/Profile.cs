@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MD.ProfileManagement.DataContract
 {
@@ -23,5 +24,7 @@ namespace MD.ProfileManagement.DataContract
         public DateTime ? DOB { get; set; }
 
         public string ConsolidatedReport { get; set; }
+
+        public ICollection<LabReport> LabReports;
     }
 }

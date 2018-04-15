@@ -18,7 +18,7 @@ namespace MD.ProfileManagement.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetAsync(int profileId)
         {
-            var result = await manager.GetAllReportAsync(profileId);
+            var result = await manager.GetReportsAsync(profileId);
             if (result != null)
             {
                 return Ok(result);

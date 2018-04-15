@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MD.ProfileManagement.DataSource.DataManager
+namespace MD.ProfileManagement.DataSource.Contract
 {
     public class ProfileDataManager : IProfileDataManager
     {
@@ -20,7 +20,7 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task DeleteProfileAsync(int profileId)
         {
-            var profile = await dbContext.Profiles.Where(p => p.ProfileID == profileId && p.IsDeleted == false).FirstOrDefaultAsync();
+            var profile = await dbContext.MemberProfiles.Where(p => p.ProfileID == profileId && p.IsDeleted == false).FirstOrDefaultAsync();
             if (profile != null)
             {
                 profile.IsDeleted = true;
@@ -30,16 +30,16 @@ namespace MD.ProfileManagement.DataSource.DataManager
 
         public async Task<IEnumerable<Profile>> GetAllProfilesAsync(string userId)
         {
-            var result = await dbContext.Profiles.Where(p => p.UserID.ToString().Equals(userId, StringComparison.OrdinalIgnoreCase) && p.IsDeleted == false).ToListAsync();
-            return result.Select(mp => mp.ConvertToDomain()).ToList();
+            var result = await dbContext.MemberProfiles.Where(p => p.UserID.ToString().Equals(userId, StringComparison.OrdinalIgnoreCase) && p.IsDeleted == false).ToListAsync();
+            return result.Select(mp => mp.ConvertToDomain()).ToList();           
         }
 
         public async Task<Profile> GetProfileAsync(int profileId)
         {
-            var result = await dbContext.Profiles.Where(p => p.ProfileID == profileId && p.IsDeleted == false).FirstOrDefaultAsync();
+            var result = await dbContext.MemberProfiles.Where(p => p.ProfileID == profileId && p.IsDeleted == false).FirstOrDefaultAsync();
             if (result != null)
             {
-                return result.ConvertToDomain();
+                var profile= result.ConvertToDomain();                
             }
 
             return null;
@@ -56,16 +56,16 @@ namespace MD.ProfileManagement.DataSource.DataManager
                 dbProfile.InsertedDate = DateTime.Now;
                 dbProfile.UpdatedDate = DateTime.Now;
                 dbProfile.IsDeleted = false;
-                dbContext.Profiles.Add(dbProfile);
+                dbContext.MemberProfiles.Add(dbProfile);
             }
             else
             {
-                var result = await dbContext.Profiles.Where(p => p.ProfileID == profile.Id).FirstOrDefaultAsync();
+                var result = await dbContext.MemberProfiles.Where(p => p.ProfileID == profile.Id).FirstOrDefaultAsync();
                 if (result == null)
                 {
                     dbProfile.InsertedDate = DateTime.Now;
                     dbProfile.IsDeleted = false;
-                    dbContext.Profiles.Add(dbProfile);
+                    dbContext.MemberProfiles.Add(dbProfile);
                 }
                 else
                 {

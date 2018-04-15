@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MD.ProfileManagement.DataSource.DataManager
+namespace MD.ProfileManagement.DataSource.Contract
 {
     /// <summary>
     /// 

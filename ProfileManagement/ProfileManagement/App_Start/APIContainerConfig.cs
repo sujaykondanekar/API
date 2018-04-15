@@ -1,4 +1,4 @@
-using MD.ProfileManagement.DataSource.DataManager;
+using MD.ProfileManagement.DataSource.Contract;
 using MD.ProfileManagement.Manager;
 using System.Web.Http;
 using Unity;

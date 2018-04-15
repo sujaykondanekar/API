@@ -2,7 +2,11 @@
 {
     public class LabTest
     {
+        
         public int TestId { get; set; }
+
+        public long? ReportId { get; set; }
+
         public string TestName { get; set; }
         public decimal TestValue { get; set; }
         public string Unit { get; set; }

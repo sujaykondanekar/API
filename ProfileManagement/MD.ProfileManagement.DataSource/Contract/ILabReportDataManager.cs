@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MD.ProfileManagement.DataSource.DataManager
+namespace MD.ProfileManagement.DataSource.Contract
 {
     public interface ILabReportDataManager
     {
         Task DeleteReportAsync(int reportId);
 
-        Task DeleteAllReportAsync(int profileId);
+        Task DeleteReportsAsync(int profileId);
 
-        Task<IEnumerable<LabReport>> GetAllReportAsync(int profileId);
+        Task<IEnumerable<LabReport>> GetReportsAsync(int profileId);
 
         Task<LabReport> GetReportAsync(int reportId);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,8 +10,7 @@ namespace MD.ProfileManagement.DataSource.DataModel
     {
         [Key]
         public long LabReportId { get; set; }
-
-       // [ForeignKey("ProfileID")]
+      
         public int ProfileID { get; set; }
 
         public DateTime ReportDate { get; set; }
@@ -21,9 +21,9 @@ namespace MD.ProfileManagement.DataSource.DataModel
 
         public DateTime InsertedDate { get; set; }
 
-        public DateTime UpdatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }  
 
-        public virtual  MDMemberProfile  Profile { get; set; }
+        public virtual  MDMemberProfile MemberProfile { get; set; }
 
     }
 }

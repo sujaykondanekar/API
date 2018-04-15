@@ -12,7 +12,7 @@ namespace MD.ProfileManagement.DataSource.DataModel
     public class MDMemberProfile
     {
         [Key]
-        public  int ProfileID { get; set; }
+        public int ProfileID { get; set; }
         public string ProfileName { get; set; }
         public string UserID { get; set; }
         public bool SendMedicineReminder { get; set; }
@@ -25,5 +25,6 @@ namespace MD.ProfileManagement.DataSource.DataModel
         public double Weight { get; set; }
         public double Height { get; set; }
         public DateTime? DOB { get; set; }
+        public string ConsolidatedReport { get; set; }      
     }
 }
