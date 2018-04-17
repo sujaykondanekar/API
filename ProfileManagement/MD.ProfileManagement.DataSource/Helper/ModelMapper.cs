@@ -32,6 +32,7 @@ namespace MD.ProfileManagement.DataSource.Helper
                 FirstName = obj.FirstName,
                 Gender = obj.Gender,
                 Height = obj.Height,
+                Weight =obj.Weight,
                 LastName = obj.LastName,
                 ProfileName = obj.ProfileName,
                 ProfileID = obj.Id ?? 0,

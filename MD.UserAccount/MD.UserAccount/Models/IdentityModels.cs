@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -28,5 +29,12 @@ namespace MD.UserAccount.Models
         {
             return new ApplicationDbContext();
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer<ApplicationDbContext>(null);
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }
