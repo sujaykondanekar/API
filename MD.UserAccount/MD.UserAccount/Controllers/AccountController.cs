@@ -237,7 +237,7 @@ namespace MD.UserAccount.Controllers
             {
                 if (await UserManager.FindByEmailAsync(userName) != null || await UserManager.FindByNameAsync(userName) != null)
                 {
-                    return BadRequest($"External user {userName} is already registered");
+                    return BadRequest($"{userName} is already registered");
                 }
 
                 user = new ApplicationUser() { UserName = userName, Email = userName };

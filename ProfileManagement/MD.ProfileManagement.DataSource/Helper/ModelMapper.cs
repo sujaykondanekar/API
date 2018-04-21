@@ -16,11 +16,12 @@ namespace MD.ProfileManagement.DataSource.Helper
                 FirstName = obj.FirstName,
                 Gender = obj.Gender,
                 Height = obj.Height,
+                Weight = obj.Weight,
                 LastName = obj.LastName,
                 ProfileName = obj.ProfileName,
                 Id = obj.ProfileID,
                 UserId = obj.UserID.ToString(),
-                ConsolidatedReport = obj.ConsolidatedReport               
+                ConsolidatedReport = obj.ConsolidatedReport
             };
         }
 
@@ -32,12 +33,12 @@ namespace MD.ProfileManagement.DataSource.Helper
                 FirstName = obj.FirstName,
                 Gender = obj.Gender,
                 Height = obj.Height,
-                Weight =obj.Weight,
+                Weight = obj.Weight,
                 LastName = obj.LastName,
                 ProfileName = obj.ProfileName,
                 ProfileID = obj.Id ?? 0,
                 UserID = obj.UserId,
-                ConsolidatedReport = obj.ConsolidatedReport                
+                ConsolidatedReport = obj.ConsolidatedReport
             };
         }
 
@@ -61,9 +62,9 @@ namespace MD.ProfileManagement.DataSource.Helper
             return new MDLabReport()
             {
                 ProfileID = report.ProfileId,
-                LabReportId = report.ReportId ?? 0,                
+                LabReportId = report.ReportId ?? 0,
                 Report = JsonConvert.SerializeObject(report.LabTests),
-                ReportDate = report.ReportDate               
+                ReportDate = report.ReportDate
             };
         }
 

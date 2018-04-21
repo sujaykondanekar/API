@@ -15,16 +15,11 @@ namespace MD.ProfileManagement.Controllers
             this.profileManager = profileManager;
         }
 
-        [Route("profile")]       
+        [Route("profile")]
         public async Task<IHttpActionResult> GetAsync()
         {
             var result = await profileManager.GetAllProfilesAsync(UserContext.UserId);
-            if (result != null && result.Any())
-            {
-                return Ok(result);
-            }
-
-            return NotFound();
+            return Ok(result);
         }
 
         [Route("profile/{profileId}")]
@@ -54,7 +49,7 @@ namespace MD.ProfileManagement.Controllers
             return Ok(profile.Id);
         }
 
-        [Route("profile/{profileId}")]      
+        [Route("profile/{profileId}")]
         [AcceptVerbs("DELETE")]
         public async Task<IHttpActionResult> DeleteAsync(int profileId)
         {
