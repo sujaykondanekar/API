@@ -64,11 +64,12 @@ namespace MD.ProfileManagement.DataSource.Contract
                 if (result == null)
                 {
                     dbProfile.InsertedDate = DateTime.Now;
+                    dbProfile.UpdatedDate = DateTime.Now;
                     dbProfile.IsDeleted = false;
                     dbContext.MemberProfiles.Add(dbProfile);
                 }
                 else
-                {
+                {                    
                     UpdateProfileValues(result, profile);
                 }
 
@@ -89,6 +90,7 @@ namespace MD.ProfileManagement.DataSource.Contract
             profileInDB.ProfileName = profile.ProfileName;
             profileInDB.Weight = profile.Weight;
             profileInDB.ConsolidatedReport = profile.ConsolidatedReport;
+            profileInDB.UpdatedDate = DateTime.Now;
         }
     }
 }
