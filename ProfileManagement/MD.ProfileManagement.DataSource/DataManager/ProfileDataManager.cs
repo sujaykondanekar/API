@@ -86,8 +86,9 @@ namespace MD.ProfileManagement.DataSource.Contract
             profileInDB.DOB = profile.DOB;
             profileInDB.Gender = profile.Gender;
             profileInDB.Height = profile.Height;
-            profile.ProfileName = profile.ProfileName;
-            profile.Weight = profile.Weight;
+            profileInDB.ProfileName = profile.ProfileName;
+            profileInDB.Weight = profile.Weight;
+            profileInDB.ConsolidatedReport = profile.ConsolidatedReport;
         }
     }
 }
