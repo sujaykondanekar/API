@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Net;
@@ -55,11 +56,15 @@ namespace MD.UserAccount.Controllers
         [HttpGet]
         public UserInfo GetUserInfo()
         {
-            return new UserInfo
+
+            UserInfo userInfo = new UserInfo
             {
                 Email = User.Identity.GetUserName(),
-                UserId = User.Identity.GetUserId()
+                UserId = User.Identity.GetUserId(),
+
             };
+
+            return userInfo;
         }
 
         // POST api/Account/Logout
@@ -172,8 +177,8 @@ namespace MD.UserAccount.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("external/login")]
-        public async Task<IHttpActionResult> LoginUsingExternalProvider(ProviderAndAccessToken model)
+        [Route("external/register")]
+        public async Task<IHttpActionResult> RegisterUsingExternalProvider(ProviderAndAccessToken model)
         {
             string id = null;
             string userName = null;
@@ -210,30 +215,7 @@ namespace MD.UserAccount.Controllers
             ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(model.Provider, id));
             bool hasRegistered = user != null;
 
-            string accessToken = null;
-            var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
-            var props = new AuthenticationProperties()
-            {
-                IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTime.UtcNow.AddDays(Settings.TokenExpirationDurationInDays)
-            };
-
-            if (hasRegistered)
-            {
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    CookieAuthenticationDefaults.AuthenticationType);
-
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-                Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-
-
-                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-                identity.AddClaim(new Claim("role", "user"));
-
-            }
-            else
+            if (!hasRegistered)           
             {
                 if (await UserManager.FindByEmailAsync(userName) != null || await UserManager.FindByNameAsync(userName) != null)
                 {
@@ -253,15 +235,73 @@ namespace MD.UserAccount.Controllers
                 {
                     return GetErrorResult(result);
                 }
-
-                identity.AddClaim(new Claim(ClaimTypes.Name, userName));
             }
+
+            return Ok("Registered successfully");
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("external/login")]
+        public async Task<IHttpActionResult> LoginUsingExternalProvider(ProviderAndAccessToken model)
+        {
+            string id = null;
+            string userName = null;
+            string accessToken = null;
+            ExternalProvider externalProvider;
+            if (!Enum.TryParse<ExternalProvider>(model.Provider, out externalProvider))
+            {
+                return BadRequest($"Invalid provider : {model.Provider}");
+            }
+
+            if (externalProvider == ExternalProvider.facebook)
+            {
+                try
+                {
+                    var fbclient = new Facebook.FacebookClient(model.Token);
+                    dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
+                    id = fb.id;
+                    userName = fb.email;
+                }
+                catch (Exception ex)
+                {
+                    HttpContent contentPost = new StringContent("Facebook : " + ex.Message, Encoding.UTF8, "application/text");
+                    var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                    {
+
+                        Content = contentPost
+
+                    };
+                    throw new HttpResponseException(msg);
+                }
+            }
+
+            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(model.Provider, id));
+
+            var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+
+            var props = new AuthenticationProperties()
+            {
+                IssuedUtc = DateTime.UtcNow,
+                ExpiresUtc = DateTime.UtcNow.AddDays(Settings.TokenExpirationDurationInDays)
+            };
+            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
+            ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                CookieAuthenticationDefaults.AuthenticationType);
+
+            AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+            Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
             identity.AddClaim(new Claim("role", "user"));
             var ticket = new AuthenticationTicket(identity, props);
-            accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
 
-            return Ok(accessToken);
+            accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);          
+
+            return Ok(new {access_token = accessToken});
         }
 
         protected override void Dispose(bool disposing)
@@ -310,7 +350,6 @@ namespace MD.UserAccount.Controllers
 
             return null;
         }
-
 
         #endregion
     }

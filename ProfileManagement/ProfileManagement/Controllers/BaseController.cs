@@ -4,7 +4,7 @@ using System.Web.Http;
 
 namespace MD.ProfileManagement.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [UserContextFilter]
     public class BaseController : ApiController
     {
