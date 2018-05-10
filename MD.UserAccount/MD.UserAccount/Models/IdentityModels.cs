@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNet.Identity;
+﻿
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -18,23 +22,50 @@ namespace MD.UserAccount.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        
+        /*public DbSet<ExceptionDetail> ExceptionDetails { get; set; }
+
+
+        public DbSet<ErrorDetail> ErrorDetails { get; set; }*/
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+       
+    }
+
+    
+    public class ApplicationDbConfiguration : DbConfiguration
+    {
+        public ApplicationDbConfiguration()
         {
-            Database.SetInitializer<ApplicationDbContext>(null);
-            base.OnModelCreating(modelBuilder);
+            SetDatabaseInitializer<ApplicationDbContext>(null);
         }
 
+        public class MyManifestTokenResolver : IManifestTokenResolver
+        {
+            private readonly IManifestTokenResolver _defaultResolver = new DefaultManifestTokenResolver();
+
+            public string ResolveManifestToken(DbConnection connection)
+            {
+                var sqlConn = connection as SqlConnection;
+                if (sqlConn != null && sqlConn.DataSource == @".\SQLEXPRESS")
+                {
+                    return "2008";
+                }
+                else
+                {
+                    return _defaultResolver.ResolveManifestToken(connection);
+                }
+            }
+        }
     }
+
+    
 }

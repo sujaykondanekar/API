@@ -196,6 +196,9 @@ namespace MD.UserAccount.Controllers
                     dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
                     id = fb.id;
                     userName = fb.email;
+                    if (userName == null) { userName = fb.name; }
+                    if (userName == null) { userName = fb.id; }
+                    userName = userName.Replace(" ", "") + "@facebook.com";
                 }
                 catch (Exception ex)
                 {
@@ -215,7 +218,7 @@ namespace MD.UserAccount.Controllers
             ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(model.Provider, id));
             bool hasRegistered = user != null;
 
-            if (!hasRegistered)           
+            if (!hasRegistered)
             {
                 if (await UserManager.FindByEmailAsync(userName) != null || await UserManager.FindByNameAsync(userName) != null)
                 {
@@ -299,9 +302,9 @@ namespace MD.UserAccount.Controllers
             identity.AddClaim(new Claim("role", "user"));
             var ticket = new AuthenticationTicket(identity, props);
 
-            accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);          
+            accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
 
-            return Ok(new {access_token = accessToken});
+            return Ok(new { access_token = accessToken });
         }
 
         protected override void Dispose(bool disposing)
