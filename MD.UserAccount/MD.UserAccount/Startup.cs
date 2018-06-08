@@ -8,9 +8,9 @@ namespace MD.UserAccount
 {
     public partial class Startup
     {
-        public void Configuration(IAppBuilder app, HttpConfiguration config)
+        public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app, config);
+            ConfigureAuth(app);
         }
     }
 }

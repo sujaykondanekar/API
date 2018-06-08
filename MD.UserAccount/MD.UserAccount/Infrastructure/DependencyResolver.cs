@@ -21,7 +21,7 @@ namespace MD.UserAccount.Infrastructure
         /// <returns></returns>
         public static IKernel GetKernel()
         {
-            if (null != kernel) //singleton pattern
+            if (null == kernel) //singleton pattern
             {
                 kernel = new StandardKernel();
                 AddBindings();

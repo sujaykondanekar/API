@@ -25,7 +25,7 @@ namespace MD.UserAccount
         public static string PublicClientId { get; private set; }
 
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
-        public void ConfigureAuth(IAppBuilder app, HttpConfiguration config)
+        public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
@@ -52,7 +52,7 @@ namespace MD.UserAccount
             app.UseOAuthBearerTokens(OAuthOptions);
 
             app.UseNinjectMiddleware(MD.UserAccount.Infrastructure.DependencyResolver.GetKernel);
-            app.UseNinjectWebApi(config);
+            //app.UseNinjectWebApi(config);
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
