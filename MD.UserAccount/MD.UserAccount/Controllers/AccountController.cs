@@ -1,4 +1,6 @@
-﻿using MD.UserAccount.Helper;
+﻿using MD.OAuthProviders.Abstract;
+using MD.OAuthProviders.Models;
+using MD.UserAccount.Helper;
 using MD.UserAccount.Models;
 using MD.UserAccount.Providers;
 using Microsoft.AspNet.Identity;
@@ -7,6 +9,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Linq;
+using Ninject;
 using System;
 using System.Linq;
 using System.Net;
@@ -51,17 +54,15 @@ namespace MD.UserAccount.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
-        // GET api/Account/UserInfo      
+        // GET api/Account/UserInfo
         [Route("userInfo")]
         [HttpGet]
         public UserInfo GetUserInfo()
         {
-
             UserInfo userInfo = new UserInfo
             {
                 Email = User.Identity.GetUserName(),
                 UserId = User.Identity.GetUserId(),
-
             };
 
             return userInfo;
@@ -116,7 +117,6 @@ namespace MD.UserAccount.Controllers
 
             return Ok();
         }
-
 
         // POST api/Account/RemoveLogin
         [Route("login/remove")]
@@ -174,7 +174,6 @@ namespace MD.UserAccount.Controllers
             return Created(new Uri($"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/token"), new { Email = model.Email });
         }
 
-
         [AllowAnonymous]
         [HttpPost]
         [Route("external/register")]
@@ -188,32 +187,22 @@ namespace MD.UserAccount.Controllers
                 return BadRequest($"Invalid provider : {model.Provider}");
             }
 
-            if (externalProvider == ExternalProvider.facebook)
+            IKernel kernel = MD.UserAccount.Infrastructure.DependencyResolver.GetKernel();
+            IOauthProvider oauthProvider = kernel.Get<IOauthProvider>(externalProvider.ToString());
+            try
             {
-                try
-                {
-                    var fbclient = new Facebook.FacebookClient(model.Token);
-                    dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
-                    id = fb.id;
-                    userName = fb.email;
-                    if (userName == null) { userName = fb.name; }
-                    if (userName == null) { userName = fb.id; }
-                    userName = userName.Replace(" ", "") + "@facebook.com";
-                }
-                catch (Exception ex)
-                {
-                    HttpContent contentPost = new StringContent("Facebook : " + ex.Message, Encoding.UTF8, "application/text");
-                    var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
-                    {
-
-                        Content = contentPost
-
-                    };
-                    throw new HttpResponseException(msg);
-                }
+                oauthProvider.Authorize(model, out id, out userName);
+                userName = userName.Replace(" ", "") + "@" + externalProvider.ToString() + ".com";
             }
-
-            //TODO: Google, LinkedIn
+            catch (Exception ex)
+            {
+                HttpContent contentPost = new StringContent(externalProvider.ToString() + ": " + ex.Message, Encoding.UTF8, "application/text");
+                var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                {
+                    Content = contentPost
+                };
+                throw new HttpResponseException(msg);
+            }
 
             ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(model.Provider, id));
             bool hasRegistered = user != null;
@@ -257,26 +246,20 @@ namespace MD.UserAccount.Controllers
                 return BadRequest($"Invalid provider : {model.Provider}");
             }
 
-            if (externalProvider == ExternalProvider.facebook)
+            IKernel kernel = MD.UserAccount.Infrastructure.DependencyResolver.GetKernel();
+            IOauthProvider oauthProvider = kernel.Get<IOauthProvider>(externalProvider.ToString());
+            try
             {
-                try
+                oauthProvider.Authorize(model, out id, out userName);
+            }
+            catch (Exception ex)
+            {
+                HttpContent contentPost = new StringContent(externalProvider.ToString() + ": " + ex.Message, Encoding.UTF8, "application/text");
+                var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
                 {
-                    var fbclient = new Facebook.FacebookClient(model.Token);
-                    dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
-                    id = fb.id;
-                    userName = fb.email;
-                }
-                catch (Exception ex)
-                {
-                    HttpContent contentPost = new StringContent("Facebook : " + ex.Message, Encoding.UTF8, "application/text");
-                    var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
-                    {
-
-                        Content = contentPost
-
-                    };
-                    throw new HttpResponseException(msg);
-                }
+                    Content = contentPost
+                };
+                throw new HttpResponseException(msg);
             }
 
             ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(model.Provider, id));
@@ -354,6 +337,6 @@ namespace MD.UserAccount.Controllers
             return null;
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

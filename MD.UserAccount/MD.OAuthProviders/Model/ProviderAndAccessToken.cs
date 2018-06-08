@@ -1,4 +1,4 @@
-﻿namespace MD.UserAccount.Models
+﻿namespace MD.OAuthProviders.Models
 {
     public class ProviderAndAccessToken
     {

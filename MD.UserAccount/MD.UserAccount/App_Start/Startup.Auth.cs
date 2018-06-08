@@ -11,6 +11,10 @@ using Owin;
 using MD.UserAccount.Providers;
 using MD.UserAccount.Models;
 using MD.UserAccount.Helper;
+using Ninject;
+using Ninject.Web.Common.OwinHost;
+using Ninject.Web.WebApi.OwinHost;
+using System.Web.Http;
 
 namespace MD.UserAccount
 {
@@ -21,7 +25,7 @@ namespace MD.UserAccount
         public static string PublicClientId { get; private set; }
 
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
-        public void ConfigureAuth(IAppBuilder app)
+        public void ConfigureAuth(IAppBuilder app, HttpConfiguration config)
         {
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
@@ -47,6 +51,8 @@ namespace MD.UserAccount
             // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
 
+            app.UseNinjectMiddleware(MD.UserAccount.Infrastructure.DependencyResolver.GetKernel);
+            app.UseNinjectWebApi(config);
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
