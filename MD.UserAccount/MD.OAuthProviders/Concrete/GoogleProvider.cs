@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 namespace MD.OAuthProviders.Concrete
 {
     /// <summary>
-    /// Facebook OAuth provider
+    /// Google OAuth provider
     /// </summary>
     /// <seealso cref="MD.OAuthProviders.Abstract.IOauthProvider" />
     public class GoogleProvider : IOauthProvider
