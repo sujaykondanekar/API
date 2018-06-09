@@ -192,7 +192,8 @@ namespace MD.UserAccount.Controllers
             try
             {
                 oauthProvider.Authorize(model, out id, out userName);
-                userName = userName.Replace(" ", "") + "@" + externalProvider.ToString() + ".com";
+                if (!userName.Contains("@"))
+                    userName = userName.Replace(" ", "") + "@" + externalProvider.ToString() + ".com";
             }
             catch (Exception ex)
             {

@@ -6,7 +6,6 @@ namespace MD.UserAccount
 {
     public class RouteConfig
     {
-
         /// <summary>
         /// Name of the controller
         /// </summary>
@@ -62,16 +61,19 @@ namespace MD.UserAccount
         /// </summary>
         private const string RegisterExternal = "RegisterExternal";
 
-
         public static void RegisterRoutes(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
             //AddRoutesToConfiguration(config.Routes);
+            //     config.Routes.MapHttpRoute(
+            //name: "DefaultApi",
+            //routeTemplate: "api/{controller}/{action}"
+            //);
         }
 
         private static void AddRoutesToConfiguration(HttpRouteCollection routeCollection)
         {
-            routeCollection.MapHttpRoute(UserInfo, RouteMappings[UserInfo], new { controller = Account, }, null);
+            routeCollection.MapHttpRoute(UserInfo, RouteMappings[UserInfo], new { controller = Account }, null);
             routeCollection.MapHttpRoute(Logout, RouteMappings[Logout], new { controller = Account });
             routeCollection.MapHttpRoute(ManageInfo, RouteMappings[ManageInfo], new { controller = Account });
             routeCollection.MapHttpRoute(ChangePassword, RouteMappings[ChangePassword], new { controller = Account });

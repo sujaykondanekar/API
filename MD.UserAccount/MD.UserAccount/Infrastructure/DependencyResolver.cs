@@ -35,6 +35,7 @@ namespace MD.UserAccount.Infrastructure
         private static void AddBindings()
         {
             kernel.Bind<IOauthProvider>().To<FaceBookProvider>().Named(ExternalProvider.facebook.ToString());
+            kernel.Bind<IOauthProvider>().To<GoogleProvider>().Named(ExternalProvider.google.ToString());
         }
     }
 }
