@@ -1,6 +1,4 @@
-﻿using MD.OAuthProviders.Abstract;
-using MD.OAuthProviders.Models;
-using MD.UserAccount.Helper;
+﻿using MD.UserAccount.Helper;
 using MD.UserAccount.Models;
 using MD.UserAccount.Providers;
 using Microsoft.AspNet.Identity;
@@ -8,8 +6,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Linq;
 using Ninject;
+using RedTop.Security.OAuthService.Providers;
 using System;
 using System.Linq;
 using System.Net;
@@ -187,24 +185,9 @@ namespace MD.UserAccount.Controllers
                 return BadRequest($"Invalid provider : {model.Provider}");
             }
 
-            IKernel kernel = MD.UserAccount.Infrastructure.DependencyResolver.GetKernel();
-            IOauthProvider oauthProvider = kernel.Get<IOauthProvider>(externalProvider.ToString());
-            try
-            {
-                oauthProvider.Authorize(model, out id, out userName);
-                if (!userName.Contains("@"))
-                    userName = userName.Replace(" ", "") + "@" + externalProvider.ToString() + ".com";
-            }
-            catch (Exception ex)
-            {
-                HttpContent contentPost = new StringContent(externalProvider.ToString() + ": " + ex.Message, Encoding.UTF8, "application/text");
-                var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
-                {
-                    Content = contentPost
-                };
-                throw new HttpResponseException(msg);
-            }
-
+            dynamic userData = AuthorizeByExternalProvider(model, externalProvider);
+            userName = userData.userName;
+            id = userData.id;
             ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(model.Provider, id));
             bool hasRegistered = user != null;
 
@@ -247,21 +230,9 @@ namespace MD.UserAccount.Controllers
                 return BadRequest($"Invalid provider : {model.Provider}");
             }
 
-            IKernel kernel = MD.UserAccount.Infrastructure.DependencyResolver.GetKernel();
-            IOauthProvider oauthProvider = kernel.Get<IOauthProvider>(externalProvider.ToString());
-            try
-            {
-                oauthProvider.Authorize(model, out id, out userName);
-            }
-            catch (Exception ex)
-            {
-                HttpContent contentPost = new StringContent(externalProvider.ToString() + ": " + ex.Message, Encoding.UTF8, "application/text");
-                var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
-                {
-                    Content = contentPost
-                };
-                throw new HttpResponseException(msg);
-            }
+            dynamic userData = AuthorizeByExternalProvider(model, externalProvider);
+            userName = userData.userName;
+            id = userData.id;
 
             ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(model.Provider, id));
 
@@ -303,6 +274,29 @@ namespace MD.UserAccount.Controllers
         }
 
         #region Helpers
+
+        private dynamic AuthorizeByExternalProvider(ProviderAndAccessToken model, ExternalProvider externalProvider)
+        {
+            IKernel kernel = Infrastructure.DependencyResolver.GetKernel();
+            IOauthProvider oauthProvider = kernel.Get<IOauthProvider>(externalProvider.ToString());
+            try
+            {
+                dynamic userData = oauthProvider.Authorize(model);
+                userData.userName = userData.userData.userName.Replace(" ", "");
+                if (!userData.userName.ToString().Contains("@")) //google already adds @gmail.com to returned data so this should be optional.
+                    userData.userName = userData.userName + "@" + externalProvider.ToString() + ".com";
+                return userData;
+            }
+            catch (Exception ex)
+            {
+                HttpContent contentPost = new StringContent(externalProvider.ToString() + " : " + ex.Message, Encoding.UTF8, "application/text");
+                var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                {
+                    Content = contentPost
+                };
+                throw new HttpResponseException(msg);
+            }
+        }
 
         private IAuthenticationManager Authentication
         {

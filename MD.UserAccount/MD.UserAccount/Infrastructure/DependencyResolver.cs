@@ -1,7 +1,6 @@
-﻿using MD.OAuthProviders.Abstract;
-using MD.OAuthProviders.Concrete;
-using MD.UserAccount.Helper;
+﻿using MD.UserAccount.Helper;
 using Ninject;
+using RedTop.Security.OAuthService.Providers;
 
 namespace MD.UserAccount.Infrastructure
 {
@@ -34,7 +33,7 @@ namespace MD.UserAccount.Infrastructure
         /// </summary>
         private static void AddBindings()
         {
-            kernel.Bind<IOauthProvider>().To<FaceBookProvider>().Named(ExternalProvider.facebook.ToString());
+            kernel.Bind<IOauthProvider>().To<FacebookProvider>().Named(ExternalProvider.facebook.ToString());
             kernel.Bind<IOauthProvider>().To<GoogleProvider>().Named(ExternalProvider.google.ToString());
         }
     }

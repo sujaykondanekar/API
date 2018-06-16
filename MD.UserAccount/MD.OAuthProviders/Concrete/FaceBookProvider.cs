@@ -1,31 +1,29 @@
-﻿using MD.OAuthProviders.Abstract;
-using MD.OAuthProviders.Models;
-using System;
+﻿using System;
 
-namespace MD.OAuthProviders.Concrete
+namespace RedTop.Security.OAuthService.Providers
 {
     /// <summary>
     /// Facebook OAuth provider
     /// </summary>
     /// <seealso cref="MD.OAuthProviders.Abstract.IOauthProvider" />
-    public class FaceBookProvider : IOauthProvider
+    public class FacebookProvider : IOauthProvider
     {
         /// <summary>
         /// Authorizes the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="id">The identifier.</param>
-        /// <param name="userName">Name of the user.</param>
-        public void Authorize(ProviderAndAccessToken model, out string id, out string userName)
+
+        public dynamic Authorize(ProviderAndAccessToken model)
         {
             try
             {
                 var fbclient = new Facebook.FacebookClient(model.Token);
                 dynamic fb = fbclient.Get("/me?locale=en_US&fields=name,email");
-                id = fb.id;
-                userName = fb.email;
-                if (null == userName) { userName = fb.name; }
-                if (null == userName) { userName = fb.id; }
+                return new
+                {
+                    id = fb.id,
+                    userName = fb.email != null ? fb.email : fb.name != null ? fb.name : fb.id
+                };
             }
             catch (Exception)
             {

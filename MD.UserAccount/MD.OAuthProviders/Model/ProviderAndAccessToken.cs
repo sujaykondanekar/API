@@ -1,4 +1,4 @@
-﻿namespace MD.OAuthProviders.Models
+﻿namespace RedTop.Security.OAuthService.Providers
 {
     public class ProviderAndAccessToken
     {

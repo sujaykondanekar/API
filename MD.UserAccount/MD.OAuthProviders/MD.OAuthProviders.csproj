@@ -66,8 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IOauthProvider.cs" />
+    <Compile Include="Concrete\FacebookProvider.cs" />
     <Compile Include="Concrete\GoogleProvider.cs" />
-    <Compile Include="Concrete\FaceBookProvider.cs" />
     <Compile Include="Model\ProviderAndAccessToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,11 +1,9 @@
-﻿using MD.OAuthProviders.Abstract;
-using MD.OAuthProviders.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace MD.OAuthProviders.Concrete
+namespace RedTop.Security.OAuthService.Providers
 {
     /// <summary>
     /// Google OAuth provider
@@ -17,11 +15,8 @@ namespace MD.OAuthProviders.Concrete
         /// Authorizes the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="id">The identifier.</param>
-        /// <param name="userName">Name of the user.</param>
-        public void Authorize(ProviderAndAccessToken model, out string id, out string userName)
+        public dynamic Authorize(ProviderAndAccessToken model)
         {
-            id = userName = string.Empty;
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -33,11 +28,17 @@ namespace MD.OAuthProviders.Concrete
                     if (response.IsSuccessStatusCode)
                     {
                         dynamic userInfo = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
-                        id = userInfo.id;
-                        userName = userInfo.email;
-                        if (null == userName)
-                        { userName = userInfo.name; }
+                        return new
+                        {
+                            id = userInfo.id,
+                            userName = userInfo.email != null ? userInfo.email : userInfo.name != null ? userInfo.name : userInfo.id
+                        };
                     }
+                    return new
+                    {
+                        id = string.Empty,
+                        userName = string.Empty
+                    };
                 }
             }
             catch (Exception)

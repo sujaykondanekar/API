@@ -1,6 +1,4 @@
-﻿using MD.OAuthProviders.Models;
-
-namespace MD.OAuthProviders.Abstract
+﻿namespace RedTop.Security.OAuthService.Providers
 {
     /// <summary>
     /// OAuth provider
@@ -11,8 +9,6 @@ namespace MD.OAuthProviders.Abstract
         /// Authorizes the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="id">The identifier.</param>
-        /// <param name="userName">Name of the user.</param>
-        void Authorize(ProviderAndAccessToken model, out string id, out string userName);
+        dynamic Authorize(ProviderAndAccessToken model);
     }
 }
